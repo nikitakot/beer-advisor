@@ -1,6 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { FbButton, MyButton } from './common/MyButtons';
+import NavigationService from '../utlis/NavigationService';
+import { Button, Card, CardSection, FbButton } from './common';
 
 class Profile extends React.Component {
     static navigationOptions = {
@@ -8,22 +8,29 @@ class Profile extends React.Component {
     };
 
     render() {
-        const { profileContainer } = styles;
         return (
-            <View style={profileContainer}>
-                <MyButton>LogIn</MyButton>
-                <MyButton>SignUp</MyButton>
-                <FbButton>Facebook</FbButton>
-            </View>
+            <Card>
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('LogIn');
+                        }}
+                    >LogIn</Button>
+                </CardSection>
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('SignUp');
+                        }}
+                    >SignUp</Button>
+                </CardSection>
+                <CardSection>
+                    <FbButton>Facebook</FbButton>
+                </CardSection>
+            </Card>
         );
     }
 }
 
-const styles = {
-    profileContainer: {
-        flex: 1,
-        justifyContent: 'flex-start'
-    }
-};
 
 export default Profile;
