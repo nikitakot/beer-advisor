@@ -1,6 +1,10 @@
 import React from 'react';
+import { Image, ScrollView } from 'react-native';
 import NavigationService from '../utlis/NavigationService';
 import { Button, Card, CardSection, FbButton } from './common';
+
+const logo = require('./../../images/logo.png');
+
 
 class Profile extends React.Component {
     static navigationOptions = {
@@ -9,28 +13,44 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <Card>
-                <CardSection>
-                    <Button
-                        onPress={() => {
-                            NavigationService.navigate('LogIn');
-                        }}
-                    >LogIn</Button>
-                </CardSection>
-                <CardSection>
-                    <Button
-                        onPress={() => {
-                            NavigationService.navigate('SignUp');
-                        }}
-                    >SignUp</Button>
-                </CardSection>
-                <CardSection>
-                    <FbButton>Facebook</FbButton>
-                </CardSection>
-            </Card>
+            <ScrollView>
+                <Card>
+                    <CardSection>
+                        <Image
+                            style={styles.imageStyle}
+                            source={logo}
+                        />
+                    </CardSection>
+                    <CardSection>
+                        <Button
+                            onPress={() => {
+                                NavigationService.navigate('LogIn');
+                            }}
+                        >LogIn</Button>
+                    </CardSection>
+                    <CardSection>
+                        <Button
+                            onPress={() => {
+                                NavigationService.navigate('SignUp');
+                            }}
+                        >SignUp</Button>
+                    </CardSection>
+                    <CardSection>
+                        <FbButton>Facebook</FbButton>
+                    </CardSection>
+                </Card>
+            </ScrollView>
         );
     }
 }
+
+const styles = {
+    imageStyle: {
+        height: 300,
+        flex: 1,
+        width: null
+    }
+};
 
 
 export default Profile;
