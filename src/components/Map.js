@@ -5,7 +5,7 @@ export default class Map extends React.Component {
     render() {
         return (
             <MapView
-                style={{ flex: 1 }}
+                style={this.props.style}
                 initialRegion={{
                     latitude: 37.78825,
                     longitude: -122.4324,

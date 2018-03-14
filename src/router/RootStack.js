@@ -4,7 +4,7 @@ import React from 'react';
 import { HomeStack } from './HomeStack';
 import { ProfileStack } from './ProfileStack';
 import { BeerListStack } from './BeerListStack';
-import { AddBarStack } from './AddBarStack';
+import { BarListStack } from './BarListStack';
 
 
 const Tabs = TabNavigator({
@@ -24,13 +24,13 @@ const Tabs = TabNavigator({
                 <Icon name="local-drink" size={35} color={tintColor} />
         }
     },
-    AddBar: {
-        screen: AddBarStack,
+    BarList: {
+        screen: BarListStack,
         navigationOptions: {
-            tabBarLabel: 'Add a bar',
+            tabBarLabel: 'BarList',
             tabBarIcon: ({ tintColor }) =>
-                <Icon name="add" size={35} color={tintColor} />
-        },
+                <Icon name="local-bar" size={35} color={tintColor} />
+        }
     },
     Profile: {
         screen: ProfileStack,
