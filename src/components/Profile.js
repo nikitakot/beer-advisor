@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { FbButton, MyButton } from './common/MyButtons';
 
 class Profile extends React.Component {
     static navigationOptions = {
@@ -7,12 +8,22 @@ class Profile extends React.Component {
     };
 
     render() {
+        const { profileContainer } = styles;
         return (
-            <View>
-                <Text>Profile</Text>
+            <View style={profileContainer}>
+                <MyButton>LogIn</MyButton>
+                <MyButton>SignUp</MyButton>
+                <FbButton>Facebook</FbButton>
             </View>
         );
     }
 }
+
+const styles = {
+    profileContainer: {
+        flex: 1,
+        justifyContent: 'flex-start'
+    }
+};
 
 export default Profile;
