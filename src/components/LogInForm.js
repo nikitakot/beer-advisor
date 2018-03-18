@@ -1,26 +1,14 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Card, CardSection, Input, Spinner } from './common';
-import { emailChanged, logInUser, passwordChanged, resetForm } from '../actions/AuthActions';
+import { Button, Card, CardSection, Spinner } from './common';
+import { logInUser } from '../actions/AuthActions';
+import AuthForm from './AuthForm';
 
 
 class LogInForm extends Component {
     static navigationOptions = {
         title: 'LogIn'
     };
-
-    componentWillMount() {
-        this.props.resetForm();
-    }
-
-    onEmailChange(text) {
-        this.props.emailChanged(text);
-    }
-
-    onPasswordChange(text) {
-        this.props.passwordChanged(text);
-    }
 
     onButtonPress() {
         const { email, password } = this.props;
@@ -35,7 +23,7 @@ class LogInForm extends Component {
 
         return (
             <Button onPress={this.onButtonPress.bind(this)}>
-                Login
+                LogIn
             </Button>
         );
     }
@@ -44,26 +32,7 @@ class LogInForm extends Component {
     render() {
         return (
             <Card>
-                <CardSection>
-                    <Input
-                        label="Email"
-                        placeholder="email@gmail.com"
-                        onChangeText={this.onEmailChange.bind(this)}
-                        value={this.props.email}
-                    />
-                </CardSection>
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        label="Password"
-                        placeholder="password"
-                        onChangeText={this.onPasswordChange.bind(this)}
-                        value={this.props.password}
-                    />
-                </CardSection>
-                <Text style={styles.errorTextStyle}>
-                    {this.props.error}
-                </Text>
+                <AuthForm />
                 <CardSection>
                     {this.renderButton()}
                 </CardSection>
@@ -72,20 +41,13 @@ class LogInForm extends Component {
     }
 }
 
-const styles = {
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: 'center',
-        color: 'red'
-    }
-};
-
 const mapStateToProps = ({ auth }) => {
-    const { email, password, error, loading } = auth;
+    const { email, password, loading } = auth;
 
-    return { email, password, error, loading };
+    return { email, password, loading };
 };
 
 export default connect(mapStateToProps, {
-    emailChanged, passwordChanged, logInUser, resetForm
+    logInUser
 })(LogInForm);
+

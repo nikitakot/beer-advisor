@@ -1,39 +1,53 @@
 import React, { Component } from 'react';
-import { Button, Card, CardSection, Input } from './common';
+import { connect } from 'react-redux';
+import { Button, Card, CardSection, Spinner } from './common';
+import { signUpUser } from '../actions/AuthActions';
+import AuthForm from './AuthForm';
 
-export default class SignUpForm extends Component {
+
+class SignUpForm extends Component {
     static navigationOptions = {
         title: 'SignUp'
     };
+
+    onButtonPress() {
+        const { email, password } = this.props;
+
+        this.props.signUpUser({ email, password });
+    }
+
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size="large" />;
+        }
+
+        return (
+            <Button onPress={this.onButtonPress.bind(this)}>
+                SignUp
+            </Button>
+        );
+    }
+
+
     render() {
         return (
             <Card>
+                <AuthForm />
                 <CardSection>
-                    <Input
-                        label="Email"
-                        placeholder="email@gmail.com"
-                    />
-                </CardSection>
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        label="Password"
-                        placeholder="password"
-                    />
-                </CardSection>
-                <CardSection>
-                    <Input
-                        secureTextEntry
-                        label="Repeat password"
-                        placeholder="Repeat password"
-                    />
-                </CardSection>
-                <CardSection>
-                    <Button>
-                        SignUp
-                    </Button>
+                    {this.renderButton()}
                 </CardSection>
             </Card>
         );
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    const { email, password, loading } = auth;
+
+    return { email, password, loading };
+};
+
+export default connect(mapStateToProps, {
+    signUpUser
+})(SignUpForm);
+
