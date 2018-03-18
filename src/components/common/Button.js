@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
+import { APP_BLUE } from '../../utlis/constants';
 
 const Button = ({ onPress, children }) => {
     const { buttonStyle, textStyle } = styles;
@@ -28,7 +29,7 @@ const FbButton = ({ onPress, children }) => {
 const styles = {
     textStyle: {
         alignSelf: 'center',
-        color: '#007aff',
+        color: APP_BLUE,
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 10,
@@ -40,7 +41,7 @@ const styles = {
         backgroundColor: '#fff',
         borderRadius: 3,
         borderWidth: 2,
-        borderColor: '#007aff',
+        borderColor: APP_BLUE,
         marginLeft: 5,
         marginRight: 5
     },

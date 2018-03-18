@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Image, ScrollView } from 'react-native';
-import { Button, Card, CardSection, FbButton } from './common';
+import { Card, CardSection } from './common';
+import NotAuthorisedProfile from './NotAuthorisedProfile';
+import AuthorisedProfile from './AuthorisedProfile';
 
 const logo = require('./../../images/logo.png');
 
@@ -20,23 +23,8 @@ class Profile extends React.Component {
                             source={logo}
                         />
                     </CardSection>
-                    <CardSection>
-                        <Button
-                            onPress={() => {
-                                this.props.navigation.navigate('LogIn');
-                            }}
-                        >LogIn</Button>
-                    </CardSection>
-                    <CardSection>
-                        <Button
-                            onPress={() => {
-                                this.props.navigation.navigate('SignUp');
-                            }}
-                        >SignUp</Button>
-                    </CardSection>
-                    <CardSection>
-                        <FbButton>Facebook</FbButton>
-                    </CardSection>
+                    {this.props.user ? <AuthorisedProfile user={this.props.user} /> :
+                        <NotAuthorisedProfile navigation={this.props.navigation} />}
                 </Card>
             </ScrollView>
         );
@@ -51,5 +39,11 @@ const styles = {
     }
 };
 
+const mapStateToProps = ({ auth }) => {
+    const { user } = auth;
 
-export default Profile;
+    return { user };
+};
+
+
+export default connect(mapStateToProps)(Profile);

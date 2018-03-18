@@ -4,6 +4,7 @@ import {
     VALIDATION_ERROR
 } from './types';
 import { EMAIL_REGEX } from '../utlis/constants';
+import NavigationService from '../utlis/NavigationService';
 
 export const emailChanged = text => {
     return {
@@ -60,6 +61,8 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
+
+    NavigationService.reset('Profile');
 };
 
 const loginUserFail = (dispatch, error) => {
@@ -71,21 +74,21 @@ const validateEmailAndPassword = (email, password) => {
     if (!email) {
         return {
             type: VALIDATION_ERROR,
-            payload: 'Email is required'
+            payload: 'Email is required.'
         };
     }
 
     if (!EMAIL_REGEX.test(email)) {
         return {
             type: VALIDATION_ERROR,
-            payload: 'Email format is incorrect'
+            payload: 'Email format is incorrect.'
         };
     }
 
     if (!password || password.length < 6) {
         return {
             type: VALIDATION_ERROR,
-            payload: 'Password should contain at least 6 characters'
+            payload: 'Password should contain at least 6 characters.'
         };
     }
 };
