@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, ScrollView } from 'react-native';
-import NavigationService from '../utlis/NavigationService';
 import { Button, Card, CardSection, FbButton } from './common';
 
 const logo = require('./../../images/logo.png');
@@ -24,14 +23,14 @@ class Profile extends React.Component {
                     <CardSection>
                         <Button
                             onPress={() => {
-                                NavigationService.navigate('LogIn');
+                                this.props.navigation.navigate('LogIn');
                             }}
                         >LogIn</Button>
                     </CardSection>
                     <CardSection>
                         <Button
                             onPress={() => {
-                                NavigationService.navigate('SignUp');
+                                this.props.navigation.navigate('SignUp');
                             }}
                         >SignUp</Button>
                     </CardSection>
