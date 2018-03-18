@@ -1,0 +1,15 @@
+{
+  "users": {
+    "user_1": {
+      "email": "email",
+      "password": "password",
+      "bars": ["bar1", "bar2", "..."]
+    }
+  },
+  "beers":{
+    "beer1":{
+      "name": "name",
+      "bars":["bar1", "bar2", "..."]
+    }
+  }
+}
