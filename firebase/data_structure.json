@@ -1,6 +1,7 @@
 {
   "users": {
     "user_1": {
+      "photoUrl": "url",
       "bars": [
         "id1",
         "id2",
@@ -21,6 +22,7 @@
   },
   "bars": {
     "bar_1": {
+      "photoUrl": "url",
       "name": "name",
       "address": {
         "number": "number",
@@ -45,6 +47,7 @@
   },
   "beers": {
     "beer1": {
+      "photoUrl": "url",
       "name": "name",
       "bars": [
         "id1",

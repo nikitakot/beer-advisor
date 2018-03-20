@@ -1,19 +1,52 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ListView } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchBeerList } from '../actions/BeerActions';
+import BeerItem from './BeerItem';
 
-class Home extends React.Component {
+class BeerList extends React.Component {
     static navigationOptions = {
         title: 'BeerList',
     };
 
+    componentWillMount() {
+        this.props.fetchBeerList();
+
+        this.createDataSource(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.createDataSource(nextProps);
+    }
+
+    createDataSource({ beerList }) {
+        const ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        });
+
+        this.dataSource = ds.cloneWithRows(beerList);
+    }
+
+    renderRow(beer) {
+        return <BeerItem beer={beer} />;
+    }
+
     render() {
         return (
-            <View>
-                <Text>Beer List</Text>
-            </View>
+            <ListView
+                enableEmptySections
+                dataSource={this.dataSource}
+                renderRow={this.renderRow}
+            />
         );
     }
 }
 
-export default Home;
+const mapStateToProps = ({ beerList }) => {
+    return beerList;
+};
+
+export default connect(mapStateToProps, {
+    fetchBeerList
+})(BeerList);
 
