@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import { CardSection } from './common';
-import { TEXT_STYLE } from '../utlis/constants';
+import MyRating from './MyRating';
 
 class BeerItem extends Component {
     render() {
@@ -11,9 +11,10 @@ class BeerItem extends Component {
             <TouchableWithoutFeedback>
                 <View>
                     <CardSection>
-                        <Text style={TEXT_STYLE}>
-                            {name}
-                        </Text>
+                        <MyRating
+                            label={name}
+                            startingValue={4}
+                        />
                     </CardSection>
                 </View>
             </TouchableWithoutFeedback>

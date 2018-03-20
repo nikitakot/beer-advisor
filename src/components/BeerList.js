@@ -1,8 +1,8 @@
 import React from 'react';
-import { ListView } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchBeerList } from '../actions/BeerActions';
 import BeerItem from './BeerItem';
+import { Card } from './common';
 
 class BeerList extends React.Component {
     static navigationOptions = {
@@ -11,33 +11,17 @@ class BeerList extends React.Component {
 
     componentWillMount() {
         this.props.fetchBeerList();
-
-        this.createDataSource(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.createDataSource(nextProps);
-    }
-
-    createDataSource({ beerList }) {
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-
-        this.dataSource = ds.cloneWithRows(beerList);
-    }
-
-    renderRow(beer) {
-        return <BeerItem beer={beer} />;
+    renderList() {
+        return this.props.beerList.map(beer => <BeerItem beer={beer} />);
     }
 
     render() {
         return (
-            <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow}
-            />
+            <Card>
+                {this.renderList()}
+            </Card>
         );
     }
 }
