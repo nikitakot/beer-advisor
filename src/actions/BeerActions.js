@@ -12,7 +12,7 @@ export const fetchBeerList = () => {
         beerColRef.get().then(querySnapshot => {
             const beerList = [];
             querySnapshot.forEach(doc => {
-                // console.log(doc);
+                console.log(doc.data(), doc.id);
                 beerList.push(doc.data());
             });
             dispatch({

@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchBeerList } from '../actions/BeerActions';
 import BeerItem from './BeerItem';
-import { Card } from './common';
+import { Card, Spinner } from './common';
+import { ScrollView, Text } from 'react-native';
+import { ERROR_TEXT_STYLE } from '../utlis/constants';
 
 class BeerList extends React.Component {
     static navigationOptions = {
@@ -14,14 +16,20 @@ class BeerList extends React.Component {
     }
 
     renderList() {
-        return this.props.beerList.map(beer => <BeerItem beer={beer} />);
+        return this.props.beerList.map((beer, index) => <BeerItem key={index} beer={beer} />);
     }
 
     render() {
+        const { loading, error } = this.props;
+
         return (
-            <Card>
-                {this.renderList()}
-            </Card>
+            <ScrollView>
+                <Card>
+                    {loading ? <Spinner /> : null}
+                    {error ? <Text style={ERROR_TEXT_STYLE}>{error}</Text> : null}
+                    {this.renderList()}
+                </Card>
+            </ScrollView>
         );
     }
 }

@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FETCH_BEER_LIST:
-            return { ...state, beerList: action.payload };
+            return { ...state, ...INITIAL_STATE, beerList: action.payload };
         case FETCHING_BEER_LIST:
             return { ...state, loading: true, error: '' };
         case FETCHING_BEER_LIST_FAIL:
