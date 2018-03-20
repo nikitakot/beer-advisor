@@ -1,15 +1,101 @@
 {
   "users": {
     "user_1": {
-      "email": "email",
-      "password": "password",
-      "bars": ["bar1", "bar2", "..."]
-    }
+      "bars": [
+        "id1",
+        "id2",
+        "..."
+      ],
+      "comments": [
+        "id1",
+        "id2",
+        "..."
+      ],
+      "ratings": [
+        "id1",
+        "id2",
+        "..."
+      ]
+    },
+    "...": {}
   },
-  "beers":{
-    "beer1":{
+  "bars": {
+    "bar_1": {
       "name": "name",
-      "bars":["bar1", "bar2", "..."]
-    }
+      "address": {
+        "number": "number",
+        "street": "street",
+        "city": "city",
+        "country": "country"
+      },
+      "lat": "number",
+      "long": "number",
+      "comments": [
+        "id1",
+        "id2",
+        "..."
+      ],
+      "ratings": [
+        "id1",
+        "id2",
+        "..."
+      ]
+    },
+    "...": {}
+  },
+  "beers": {
+    "beer1": {
+      "name": "name",
+      "bars": [
+        "id1",
+        "id2",
+        "..."
+      ],
+      "comments": [
+        "id1",
+        "id2",
+        "..."
+      ],
+      "ratings": [
+        "id1",
+        "id2",
+        "..."
+      ]
+    },
+    "...": {}
+  },
+  "bar_ratings": {
+    "rating1": {
+      "user_id": "user_1",
+      "rating": "number(1-5)",
+      "bar_id": "id"
+    },
+    "...": {}
+  },
+  "beer_ratings": {
+    "rating1": {
+      "user_id": "user_1",
+      "rating": "number(1-5)",
+      "beer_id": "id"
+    },
+    "...": {}
+  },
+  "bar_comments": {
+    "comment1": {
+      "user_id": "user_1",
+      "comment": "comment",
+      "bar_id": "id",
+      "timestamp": "timestamp"
+    },
+    "...": {}
+  },
+  "beer_comments": {
+    "comment1": {
+      "user_id": "user_1",
+      "comment": "comment",
+      "beer_id": "id",
+      "timestamp": "timestamp"
+    },
+    "...": {}
   }
 }
