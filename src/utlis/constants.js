@@ -9,5 +9,10 @@ export const TEXT_STYLE = {
     paddingLeft: 5,
     flex: 1
 };
+export const HEADER_STYLE = {
+    fontSize: 22,
+    textAlign: 'center',
+    flex: 1
+};
 export const APP_BLUE = '#007aff';
 

@@ -49,6 +49,7 @@
     "beer1": {
       "photoUrl": "url",
       "name": "name",
+      "description": "description",
       "bars": [
         "id1",
         "id2",
