@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapView } from 'expo';
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input } from './common';
 import Map from './Map';
@@ -11,6 +12,12 @@ class AddBarForm extends React.Component {
     static navigationOptions = {
         title: 'Add a bar',
     };
+
+    renderMarkers() {
+        const { lat, lng } = this.props;
+        return lat && lng ? <MapView.Marker coordinate={{ latitude: lat, longitude: lng }} />
+            : null;
+    }
 
     render() {
         return (
@@ -30,7 +37,10 @@ class AddBarForm extends React.Component {
                             />
                         </CardSection>
                         <CardSection>
-                            <Map style={{ height: 300, flex: 1, width: null }} />
+                            <Map
+                                renderMarkers={this.renderMarkers.bind(this)}
+                                style={{ height: 300, flex: 1, width: null }}
+                            />
                         </CardSection>
                         <CardSection>
                             <Input

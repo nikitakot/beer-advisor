@@ -2,17 +2,28 @@ import React from 'react';
 import { MapView } from 'expo';
 
 export default class Map extends React.Component {
+
+    // state = {
+    //     showButton: false
+    // };
+    //
+    // componentWillMount() {
+    //     setTimeout(() => {
+    //         this.setState({ showButton: true });
+    //     }, 500);
+    // }
+
     render() {
+        const { style, renderMarkers } = this.props;
+
         return (
             <MapView
-                style={this.props.style}
-                initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
-            />
+                style={style}
+                showsUserLocation
+                //showsMyLocationButton={this.state.showButton}
+            >
+                {renderMarkers ? renderMarkers() : null}
+            </MapView>
         );
     }
 }
