@@ -12,10 +12,14 @@ class BeerList extends React.Component {
         this.props.navigation.navigate('Beer', { beer });
     }
 
+    getIcon() {
+        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+    }
+
     render() {
         return (<AdjustableBeerList
             onPress={this.onPress.bind(this)}
-            icon={<Icon name="navigate-next" size={35} color={APP_BLUE} />}
+            getIcon={this.getIcon}
         />);
     }
 }

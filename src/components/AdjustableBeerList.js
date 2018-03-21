@@ -13,9 +13,14 @@ class AdjustableBeerList extends React.Component {
     }
 
     renderList() {
-        const { icon, onPress } = this.props;
+        const { onPress, getIcon } = this.props;
         return this.props.beerList.map(beer =>
-            <BeerItem onPress={() => onPress(beer)} icon={icon} key={beer.id} beer={beer} />
+            <BeerItem
+                onPress={() => onPress(beer)}
+                icon={getIcon(beer)}
+                key={beer.id}
+                beer={beer}
+            />
         );
     }
 
@@ -34,9 +39,7 @@ class AdjustableBeerList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ beerList }) => {
-    return beerList;
-};
+const mapStateToProps = ({ beerList }) => beerList;
 
 export default connect(mapStateToProps, {
     fetchBeerList
