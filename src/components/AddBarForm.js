@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
-import { Card, CardSection, Input } from './common';
+import { Button, Card, CardSection, Input } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 
@@ -41,6 +41,11 @@ class AddBarForm extends React.Component {
                         </CardSection>
                         <CardSection>
                             <AddBarButton />
+                        </CardSection>
+                        <CardSection>
+                            <Button>
+                                Add
+                            </Button>
                         </CardSection>
                     </Card>
                 </ScrollView>

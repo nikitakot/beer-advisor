@@ -14,7 +14,6 @@ class AdjustableBeerList extends React.Component {
 
     renderList() {
         const { icon, onPress } = this.props;
-        //const icon = <Icon name="done" size={35} color='#cccccc' />;
         return this.props.beerList.map(beer =>
             <BeerItem onPress={() => onPress(beer)} icon={icon} key={beer.id} beer={beer} />
         );
