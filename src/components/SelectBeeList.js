@@ -36,7 +36,6 @@ class SelectBeeList extends React.Component {
 
 const mapStateToProps = ({ addABar }) => {
     const { beerList } = addABar;
-    console.log(addABar);
     return { beerList };
 };
 

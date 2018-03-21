@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { TEXT_STYLE } from '../utlis/constants';
+import { APP_BLUE, TEXT_STYLE } from '../utlis/constants';
 import { Button } from './common';
 import NavigationService from '../utlis/NavigationService';
+import { connect } from 'react-redux';
 
 class AddBarButton extends Component {
     render() {
+        const { beerList } = this.props;
+
         return (
             <View style={styles.containerStyle}>
-                <Text style={TEXT_STYLE}>Added 0 beers</Text>
+                <Text style={TEXT_STYLE}>
+                    Added{' '}
+                        <Text style={{ color: APP_BLUE, fontWeight: 'bold' }}>
+                            {beerList.length}
+                        </Text>
+                    {' '}beers
+                </Text>
                 <Button
                     onPress={() => {
                         NavigationService.navigate('SelectBeeList');
@@ -28,4 +37,9 @@ const styles = {
     }
 };
 
-export default AddBarButton;
+const mapStateToProps = ({ addABar }) => {
+    const { beerList } = addABar;
+    return { beerList };
+};
+
+export default connect(mapStateToProps, {})(AddBarButton);

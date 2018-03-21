@@ -24,6 +24,7 @@
     "bar_1": {
       "user": "uid",
       "photoUrl": "url",
+      "address": "string",
       "name": "name",
       "lat": "number",
       "long": "number",
