@@ -12,6 +12,22 @@ export default class Map extends React.Component {
     //         this.setState({ showButton: true });
     //     }, 500);
     // }
+    constructor(props) {
+        super(props);
+        this.mapRef = null;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { lat, lng } = nextProps;
+        if (this.mapRef && lat && lng) {
+            this.mapRef.fitToCoordinates(
+                [{
+                    latitude: lat,
+                    longitude: lng
+                }]
+            );
+        }
+    }
 
     render() {
         const { style, renderMarkers } = this.props;
@@ -20,6 +36,9 @@ export default class Map extends React.Component {
             <MapView
                 style={style}
                 showsUserLocation
+                ref={(ref) => {
+                    this.mapRef = ref;
+                }}
                 //showsMyLocationButton={this.state.showButton}
             >
                 {renderMarkers ? renderMarkers() : null}

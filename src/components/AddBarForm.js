@@ -20,6 +20,7 @@ class AddBarForm extends React.Component {
     }
 
     render() {
+        const { lat, lng } = this.props;
         return (
             <KeyboardAvoidingView
                 keyboardVerticalOffset={60}
@@ -38,6 +39,8 @@ class AddBarForm extends React.Component {
                         </CardSection>
                         <CardSection>
                             <Map
+                                lat={lat}
+                                lng={lng}
                                 renderMarkers={this.renderMarkers.bind(this)}
                                 style={{ height: 300, flex: 1, width: null }}
                             />
