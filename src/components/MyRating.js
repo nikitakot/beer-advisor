@@ -6,7 +6,7 @@ import { TEXT_STYLE } from '../utlis/constants';
 export default class MyRating extends Component {
 
     render() {
-        const { label, startingValue, onFinishRating } = this.props;
+        const { label, startingValue, onFinishRating, readonly } = this.props;
         const { ratingStyle, containerStyle, labelStyle } = styles;
 
         return (
@@ -16,6 +16,7 @@ export default class MyRating extends Component {
                     style={ratingStyle}
                     startingValue={startingValue}
                     fractions={1}
+                    readonly={readonly}
                     imageSize={35}
                     onFinishRating={onFinishRating}
                 />

@@ -1,36 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchBeerList } from '../actions/BeerActions';
-import BeerItem from './BeerItem';
-import { Card, Spinner } from './common';
-import { ScrollView, Text } from 'react-native';
-import { ERROR_TEXT_STYLE } from '../utlis/constants';
+import AdjustableBeerList from './AdjustableBeerList';
+import NavigationService from '../utlis/NavigationService';
+import { Icon } from 'react-native-elements';
+import { APP_BLUE } from '../utlis/constants';
 
 class BeerList extends React.Component {
     static navigationOptions = {
         title: 'BeerList',
     };
 
-    componentWillMount() {
-        this.props.fetchBeerList();
-    }
-
-    renderList() {
-        return this.props.beerList.map((beer, index) => <BeerItem key={index} beer={beer} />);
+    onPress(beer) {
+        NavigationService.navigate('Beer', { beer });
     }
 
     render() {
-        const { loading, error } = this.props;
-
-        return (
-            <ScrollView>
-                <Card>
-                    {loading ? <Spinner /> : null}
-                    {error ? <Text style={ERROR_TEXT_STYLE}>{error}</Text> : null}
-                    {this.renderList()}
-                </Card>
-            </ScrollView>
-        );
+        return (<AdjustableBeerList
+            onPress={this.onPress}
+            icon={<Icon name="navigate-next" size={35} color={APP_BLUE} />}
+        />);
     }
 }
 

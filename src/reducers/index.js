@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './AuthReducer';
 import BeerListReducer from './BeerListReducer';
+import AddABarReducer from './AddABarReducer';
 
 export default combineReducers({
     auth: AuthReducer,
-    beerList: BeerListReducer
+    beerList: BeerListReducer,
+    addABar: AddABarReducer
 });

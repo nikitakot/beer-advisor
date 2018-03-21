@@ -22,16 +22,16 @@
   },
   "bars": {
     "bar_1": {
+      "user": "uid",
       "photoUrl": "url",
       "name": "name",
-      "address": {
-        "number": "number",
-        "street": "street",
-        "city": "city",
-        "country": "country"
-      },
       "lat": "number",
       "long": "number",
+      "beerList": [
+        "id1",
+        "id2",
+        "..."
+      ],
       "comments": [
         "id1",
         "id2",
