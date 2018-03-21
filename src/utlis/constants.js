@@ -16,3 +16,5 @@ export const HEADER_STYLE = {
 };
 export const APP_BLUE = '#007aff';
 
+export const GEOCODE_API_KEY = 'AIzaSyALgyuPJTgojZQ7DMvEuhuD-XUIKqwU1Xw';
+

@@ -1,10 +1,10 @@
 import React from 'react';
-import { KeyboardAvoidingView, Modal, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Button, Card, CardSection, Input } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate } from '../actions/BarActions';
+import { barUpdate, fetchAddress } from '../actions/BarActions';
 
 
 class AddBarForm extends React.Component {
@@ -37,6 +37,9 @@ class AddBarForm extends React.Component {
                                 label="Address"
                                 placeholder="Enter the bar address"
                                 value={this.props.address}
+                                onBlur={() => {
+                                    this.props.fetchAddress(this.props.address);
+                                }}
                                 onChangeText={value =>
                                     this.props.barUpdate({ prop: 'address', value })}
                             />
@@ -66,10 +69,12 @@ class AddBarForm extends React.Component {
 }
 
 const mapStateToProps = ({ addABar }) => {
-    const { name, phone, address } = addABar;
+    const { name, phone, address, lat, lng } = addABar;
 
-    return { name, phone, address };
+    console.log(addABar);
+
+    return { name, phone, address, lat, lng };
 };
 
-export default connect(mapStateToProps, { barUpdate })(AddBarForm);
+export default connect(mapStateToProps, { barUpdate, fetchAddress })(AddBarForm);
 
