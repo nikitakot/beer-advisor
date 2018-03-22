@@ -41,9 +41,10 @@ class AddBarForm extends React.Component {
                             <Map
                                 lat={lat}
                                 lng={lng}
-                                renderMarkers={this.renderMarkers.bind(this)}
                                 style={{ height: 300, flex: 1, width: null }}
-                            />
+                            >
+                                {this.renderMarkers()}
+                            </Map>
                         </CardSection>
                         <CardSection>
                             <Input
@@ -83,8 +84,6 @@ class AddBarForm extends React.Component {
 
 const mapStateToProps = ({ addABar }) => {
     const { name, phone, address, lat, lng } = addABar;
-
-    console.log(addABar);
 
     return { name, phone, address, lat, lng };
 };

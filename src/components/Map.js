@@ -2,16 +2,6 @@ import React from 'react';
 import { MapView } from 'expo';
 
 export default class Map extends React.Component {
-
-    // state = {
-    //     showButton: false
-    // };
-    //
-    // componentWillMount() {
-    //     setTimeout(() => {
-    //         this.setState({ showButton: true });
-    //     }, 500);
-    // }
     constructor(props) {
         super(props);
         this.mapRef = null;
@@ -30,7 +20,7 @@ export default class Map extends React.Component {
     }
 
     render() {
-        const { style, renderMarkers } = this.props;
+        const { style, children } = this.props;
 
         return (
             <MapView
@@ -39,9 +29,8 @@ export default class Map extends React.Component {
                 ref={(ref) => {
                     this.mapRef = ref;
                 }}
-                //showsMyLocationButton={this.state.showButton}
             >
-                {renderMarkers ? renderMarkers() : null}
+                {children}
             </MapView>
         );
     }
