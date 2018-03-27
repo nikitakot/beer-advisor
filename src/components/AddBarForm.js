@@ -1,11 +1,12 @@
 import React from 'react';
 import { MapView } from 'expo';
-import { KeyboardAvoidingView, ScrollView } from 'react-native';
-import { Button, Card, CardSection, Input } from './common';
+import { KeyboardAvoidingView, ScrollView, Text } from 'react-native';
+import { Button, Card, CardSection, Input, Spinner } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
 import { barUpdate, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
+import { ERROR_TEXT_STYLE } from '../utlis/constants';
 
 
 class AddBarForm extends React.Component {
@@ -21,6 +22,21 @@ class AddBarForm extends React.Component {
         const { lat, lng } = this.props;
         return lat && lng ? <MapView.Marker coordinate={{ latitude: lat, longitude: lng }} />
             : null;
+    }
+
+    renderAddressInput() {
+        return this.props.addressLoading ?
+            <Spinner size="large" /> :
+            <Input
+                label="Address"
+                placeholder="Enter the bar address"
+                value={this.props.address}
+                onBlur={() => {
+                    this.props.fetchAddress(this.props.address);
+                }}
+                onChangeText={value =>
+                    this.props.barUpdate({ prop: 'address', value })}
+            />;
     }
 
     render() {
@@ -50,17 +66,11 @@ class AddBarForm extends React.Component {
                                 {this.renderMarkers()}
                             </Map>
                         </CardSection>
+                        <Text style={ERROR_TEXT_STYLE}>
+                            {this.props.error}
+                        </Text>
                         <CardSection>
-                            <Input
-                                label="Address"
-                                placeholder="Enter the bar address"
-                                value={this.props.address}
-                                onBlur={() => {
-                                    this.props.fetchAddress(this.props.address);
-                                }}
-                                onChangeText={value =>
-                                    this.props.barUpdate({ prop: 'address', value })}
-                            />
+                            {this.renderAddressInput()}
                         </CardSection>
                         <CardSection>
                             <Input
@@ -87,10 +97,11 @@ class AddBarForm extends React.Component {
 }
 
 const mapStateToProps = ({ addABar }) => {
-    const { name, phone, address, lat, lng } = addABar;
+    const { name, phone, address, lat, lng, error, addressLoading } = addABar;
 
-    return { name, phone, address, lat, lng };
+    return { name, phone, address, lat, lng, error, addressLoading };
 };
 
-export default connect(mapStateToProps, { barUpdate, fetchAddress, fetchCurrentAddress })(AddBarForm);
+export default connect(mapStateToProps,
+    { barUpdate, fetchAddress, fetchCurrentAddress })(AddBarForm);
 

@@ -1,5 +1,8 @@
 import { Location } from 'expo';
-import { BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED, FETCH_GEOCODE_SUCCESS } from './types';
+import {
+    BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED, FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS,
+    FETCHING_GEOCODE
+} from './types';
 import { getGeoCode, getGeoCodeReverse } from '../utlis/requests';
 
 export const beerSelected = id => {
@@ -25,18 +28,21 @@ export const barUpdate = ({ prop, value }) => {
 
 export const fetchAddress = address => {
     return (dispatch) => {
+        dispatch({ type: FETCHING_GEOCODE });
         getGeoCode(address)
             .then(res => {
                 dispatchGeocodeSuccess(res, dispatch);
             })
             .catch(e => {
                 console.log(e);
+                dispatch({ type: FETCH_GEOCODE_FAIL });
             });
     };
 };
 
 export const fetchCurrentAddress = () => {
     return (dispatch) => {
+        dispatch({ type: FETCHING_GEOCODE });
         Location.getCurrentPositionAsync().then(({ coords }) => {
             const { latitude: lat, longitude: lng } = coords;
             getGeoCodeReverse(lat, lng)
@@ -45,6 +51,7 @@ export const fetchCurrentAddress = () => {
                 })
                 .catch(e => {
                     console.log(e);
+                    dispatch({ type: FETCH_GEOCODE_FAIL });
                 });
         });
     };

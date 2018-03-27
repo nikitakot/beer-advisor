@@ -14,4 +14,6 @@ export const BEER_SELECTED = 'beer_selected';
 export const BEER_UNSELECTED = 'beer_unselected';
 export const BAR_UPDATE = 'bar_update';
 export const FETCH_GEOCODE_SUCCESS = 'fetch_geocode_success';
+export const FETCH_GEOCODE_FAIL = 'fetch_geocode_fail';
+export const FETCHING_GEOCODE = 'fetching_geocode';
 
