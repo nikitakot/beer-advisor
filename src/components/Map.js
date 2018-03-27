@@ -12,18 +12,20 @@ export default class Map extends React.Component {
     componentDidMount() {
         setTimeout(() => {
             this.setState({ focusUser: false });
-        }, 1000);
+        }, 5000);
     }
 
     componentWillReceiveProps(nextProps) {
         const { lat, lng } = nextProps;
-        if (this.mapRef && lat && lng) {
-            this.mapRef.fitToCoordinates(
-                [{
-                    latitude: lat,
-                    longitude: lng
-                }]
-            );
+        if (lat !== this.props.lat || lng !== this.props.lng) {
+            if (this.mapRef && lat && lng) {
+                this.mapRef.fitToCoordinates(
+                    [{
+                        latitude: lat,
+                        longitude: lng
+                    }]
+                );
+            }
         }
     }
 

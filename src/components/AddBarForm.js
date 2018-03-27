@@ -5,13 +5,17 @@ import { Button, Card, CardSection, Input } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate, fetchAddress } from '../actions/BarActions';
+import { barUpdate, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
 
 
 class AddBarForm extends React.Component {
     static navigationOptions = {
         title: 'Add a bar',
     };
+
+    componentDidMount() {
+        this.props.fetchCurrentAddress();
+    }
 
     renderMarkers() {
         const { lat, lng } = this.props;
@@ -88,5 +92,5 @@ const mapStateToProps = ({ addABar }) => {
     return { name, phone, address, lat, lng };
 };
 
-export default connect(mapStateToProps, { barUpdate, fetchAddress })(AddBarForm);
+export default connect(mapStateToProps, { barUpdate, fetchAddress, fetchCurrentAddress })(AddBarForm);
 

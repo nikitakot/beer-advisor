@@ -8,3 +8,10 @@ export function getGeoCode(address) {
         .then(response => response.json());
 }
 
+export function getGeoCodeReverse(lat, lng) {
+    return fetch('https://maps.googleapis.com/maps/api/geocode/json' +
+        '?latlng=' + lat + ',' + lng +
+        '&key=' + GEOCODE_API_KEY)
+        .then(response => response.json());
+}
+
