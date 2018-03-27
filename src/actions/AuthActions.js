@@ -1,10 +1,10 @@
-import firebase from 'firebase';
 import {
     EMAIL_CHANGED, LOGIN_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS, PASSWORD_CHANGED, RESET_FORM,
     VALIDATION_ERROR
 } from './types';
 import { EMAIL_REGEX } from '../utlis/constants';
 import NavigationService from '../utlis/NavigationService';
+import { auth } from '../config/firebase';
 
 export const emailChanged = text => {
     return {
@@ -27,7 +27,7 @@ export const signUpUser = ({ email, password }) => {
     }
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
             .then(user => loginUserSuccess(dispatch, user))
             .catch(error => {
                 loginUserFail(dispatch, error);
@@ -42,7 +42,7 @@ export const logInUser = ({ email, password }) => {
     }
     return (dispatch) => {
         dispatch({ type: LOGIN_USER });
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password)
             .then(user => loginUserSuccess(dispatch, user))
             .catch(error => {
                 loginUserFail(dispatch, error);
