@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Card, CardSection, Spinner } from './common';
 import NavigationService from '../utlis/NavigationService';
-import { ERROR_TEXT_STYLE } from '../utlis/constants';
+import { APP_BLUE, ERROR_TEXT_STYLE } from '../utlis/constants';
 import { connect } from 'react-redux';
 import { ScrollView, Text } from 'react-native';
+import { fetchBarsList } from '../actions/BarActions';
+import { Icon } from 'react-native-elements';
 import RatingItem from './RatingItem';
 
 class BarList extends React.Component {
@@ -12,19 +14,23 @@ class BarList extends React.Component {
     };
 
     componentWillMount() {
-        // this.props.fetchBeerList();
+        this.props.fetchBarsList();
+    }
+
+    getIcon() {
+        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
     }
 
     renderList() {
-        // const { onPress, getIcon } = this.props;
-        // return this.props.beerList.map(beer =>
-        //     <RatingItem
-        //         onPress={() => onPress(beer)}
-        //         icon={getIcon(beer)}
-        //         key={beer.id}
-        //         name={beer.name}
-        //     />
-        // );
+        return this.props.barList.map((bar, k) =>
+            <RatingItem
+                onPress={() => {
+                }}
+                icon={this.getIcon()}
+                key={k}
+                name={bar.name}
+            />
+        );
     }
 
     render() {
@@ -51,9 +57,7 @@ class BarList extends React.Component {
     }
 }
 
-const mapStateToProps = () => {
-    return {};
-};
+const mapStateToProps = ({ barList }) => barList;
 
-export default connect(mapStateToProps, {})(BarList);
+export default connect(mapStateToProps, { fetchBarsList })(BarList);
 

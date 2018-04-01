@@ -1,10 +1,11 @@
 /* eslint-disable arrow-body-style */
 import { Location } from 'expo';
 import {
-    ADD_A_BAR_FAIL, ADD_A_BAR_SUCCESS, ADDING_A_BAR, BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED,
-    FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_GEOCODE, VALIDATION_ERROR
+    ADD_A_BAR_FAIL, ADD_A_BAR_SUCCESS, ADDING_A_BAR, BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED, FETCH_BAR_LIST,
+    FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_BAR_LIST, FETCHING_BAR_LIST_FAIL, FETCHING_GEOCODE,
+    VALIDATION_ERROR
 } from './types';
-import { getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
+import { getBarList, getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
 import { PHONE_REGEX } from '../utlis/constants';
 
 export const beerSelected = id => {
@@ -73,6 +74,23 @@ export const createABar = (props) => {
             .catch(e => {
                 console.error(e);
                 dispatch({ type: ADD_A_BAR_FAIL });
+            });
+    };
+};
+
+export const fetchBarsList = () => {
+    return (dispatch) => {
+        dispatch({ type: FETCHING_BAR_LIST });
+        getBarList()
+            .then(({ barList }) => {
+                dispatch({
+                    type: FETCH_BAR_LIST,
+                    payload: barList
+                });
+            })
+            .catch(e => {
+                console.error(e);
+                dispatch({ type: FETCHING_BAR_LIST_FAIL });
             });
     };
 };
