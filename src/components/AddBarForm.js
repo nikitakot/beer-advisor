@@ -101,9 +101,9 @@ class AddBarForm extends React.Component {
 }
 
 const mapStateToProps = ({ addABar }) => {
-    const { name, phone, address, lat, lng, error, addressLoading } = addABar;
+    const { name, phone, address, lat, lng, error, addressLoading, beerList } = addABar;
 
-    return { name, phone, address, lat, lng, error, addressLoading };
+    return { name, phone, address, lat, lng, error, addressLoading, beerList };
 };
 
 export default connect(mapStateToProps,

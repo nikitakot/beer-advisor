@@ -3,3 +3,4 @@ node_modules/**/*
 npm-debug.*
 .idea
 /firebase/functions/node_modules/
+/firebase/functions/firebase-debug.log

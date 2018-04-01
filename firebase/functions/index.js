@@ -3,16 +3,19 @@ const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors')({ origin: true });
 const cookieParser = require('cookie-parser')();
+var bodyParser = require('body-parser');
+
 const app = express();
 
 admin.initializeApp(functions.config().firebase);
 
 app.use(cors);
 app.use(cookieParser);
+app.use(bodyParser.json());
 
-app.get('/add-bar', (req, res) => {
-    console.log(req.query);
-    res.json({ test: `testing data: ${req.query.test}` });
+app.post('/add-bar', (req, res) => {
+    console.log(req.body);
+    res.json(req.body);
 });
 
 
