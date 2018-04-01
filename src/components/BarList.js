@@ -7,14 +7,25 @@ import { ScrollView, Text } from 'react-native';
 import { fetchBarsList } from '../actions/BarActions';
 import { Icon } from 'react-native-elements';
 import RatingItem from './RatingItem';
+import { RefreshButton } from './common/RefreshButton';
 
 class BarList extends React.Component {
-    static navigationOptions = {
-        title: 'BarList',
+
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            title: 'BarList',
+            headerRight: (
+                <RefreshButton
+                    onPress={params.fetchBarsList}
+                />
+            ),
+        };
     };
 
     componentWillMount() {
         this.props.fetchBarsList();
+        this.props.navigation.setParams({ fetchBarsList: this.props.fetchBarsList });
     }
 
     getIcon() {

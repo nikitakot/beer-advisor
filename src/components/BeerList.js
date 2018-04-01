@@ -2,11 +2,26 @@ import React from 'react';
 import AdjustableBeerList from './AdjustableBeerList';
 import { Icon } from 'react-native-elements';
 import { APP_BLUE } from '../utlis/constants';
+import { RefreshButton } from './common/RefreshButton';
+import { fetchBeerList } from '../actions/BeerActions';
+import { connect } from 'react-redux';
 
 class BeerList extends React.Component {
-    static navigationOptions = {
-        title: 'BeerList',
+    static navigationOptions = ({ navigation }) => {
+        const params = navigation.state.params || {};
+        return {
+            title: 'BeerList',
+            headerRight: (
+                <RefreshButton
+                    onPress={params.fetchBeerList}
+                />
+            ),
+        };
     };
+
+    componentWillMount() {
+        this.props.navigation.setParams({ fetchBeerList: this.props.fetchBeerList });
+    }
 
     onPress(beer) {
         this.props.navigation.navigate('Beer', { beer });
@@ -24,5 +39,5 @@ class BeerList extends React.Component {
     }
 }
 
-export default BeerList;
+export default connect(null, { fetchBeerList })(BeerList);
 
