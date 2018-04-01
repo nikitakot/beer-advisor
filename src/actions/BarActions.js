@@ -1,9 +1,11 @@
+/* eslint-disable arrow-body-style */
 import { Location } from 'expo';
 import {
-    BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED, FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS,
-    FETCHING_GEOCODE
+    ADD_A_BAR_FAIL, ADD_A_BAR_SUCCESS, ADDING_A_BAR, BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED,
+    FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_GEOCODE, VALIDATION_ERROR
 } from './types';
-import { getGeoCode, getGeoCodeReverse } from '../utlis/requests';
+import { getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
+import { PHONE_REGEX } from '../utlis/constants';
 
 export const beerSelected = id => {
     return {
@@ -57,6 +59,25 @@ export const fetchCurrentAddress = () => {
     };
 };
 
+export const createABar = (props) => {
+    const validationResult = validateBarForm(props);
+    if (validationResult) {
+        return validationResult;
+    }
+    return (dispatch) => {
+        dispatch({ type: ADDING_A_BAR });
+        postABar(props)
+            .then(res => {
+                console.log(res);
+                dispatch({ type: ADD_A_BAR_SUCCESS });
+            })
+            .catch(e => {
+                dispatch({ type: ADD_A_BAR_FAIL });
+                console.error('Bar POST fail.', e);
+            });
+    };
+};
+
 const dispatchGeocodeSuccess = (res, dispatch) => {
     const data = res.results;
     dispatch({
@@ -67,4 +88,27 @@ const dispatchGeocodeSuccess = (res, dispatch) => {
             lng: data[0].geometry.location.lng
         }
     });
+};
+
+const validateBarForm = ({ name, address, lat, lng, phone }) => {
+    if (!name) {
+        return {
+            type: VALIDATION_ERROR,
+            payload: 'Bar name is required.'
+        };
+    }
+
+    if (!address || !lat || !lng) {
+        return {
+            type: VALIDATION_ERROR,
+            payload: 'Address is badly formatted.'
+        };
+    }
+
+    if (phone && !PHONE_REGEX.test(phone)) {
+        return {
+            type: VALIDATION_ERROR,
+            payload: 'Phone is badly formatted.'
+        };
+    }
 };

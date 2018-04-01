@@ -5,7 +5,7 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
+import { barUpdate, createABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
 
 
@@ -16,6 +16,10 @@ class AddBarForm extends React.Component {
 
     componentDidMount() {
         this.props.fetchCurrentAddress();
+    }
+
+    submit() {
+        this.props.createABar(this.props);
     }
 
     renderMarkers() {
@@ -85,7 +89,7 @@ class AddBarForm extends React.Component {
                             <AddBarButton />
                         </CardSection>
                         <CardSection>
-                            <Button>
+                            <Button onPress={this.submit.bind(this)}>
                                 Add
                             </Button>
                         </CardSection>
@@ -103,5 +107,5 @@ const mapStateToProps = ({ addABar }) => {
 };
 
 export default connect(mapStateToProps,
-    { barUpdate, fetchAddress, fetchCurrentAddress })(AddBarForm);
+    { barUpdate, fetchAddress, fetchCurrentAddress, createABar })(AddBarForm);
 

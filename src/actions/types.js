@@ -16,4 +16,7 @@ export const BAR_UPDATE = 'bar_update';
 export const FETCH_GEOCODE_SUCCESS = 'fetch_geocode_success';
 export const FETCH_GEOCODE_FAIL = 'fetch_geocode_fail';
 export const FETCHING_GEOCODE = 'fetching_geocode';
+export const ADD_A_BAR_SUCCESS = 'add_a_bar_success';
+export const ADD_A_BAR_FAIL = 'add_a_bar_fail';
+export const ADDING_A_BAR = 'adding_a_bar';
 

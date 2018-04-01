@@ -9,6 +9,7 @@ admin.initializeApp(functions.config().firebase);
 
 app.use(cors);
 app.use(cookieParser);
+
 app.get('/add-bar', (req, res) => {
     console.log(req.query);
     res.json({ test: `testing data: ${req.query.test}` });
