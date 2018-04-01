@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchBeerList } from '../actions/BeerActions';
-import BeerItem from './BeerItem';
+import RatingItem from './RatingItem';
 import { Card, Spinner } from './common';
 import { ScrollView, Text } from 'react-native';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
@@ -15,11 +15,11 @@ class AdjustableBeerList extends React.Component {
     renderList() {
         const { onPress, getIcon } = this.props;
         return this.props.beerList.map(beer =>
-            <BeerItem
+            <RatingItem
                 onPress={() => onPress(beer)}
                 icon={getIcon(beer)}
                 key={beer.id}
-                beer={beer}
+                name={beer.name}
             />
         );
     }

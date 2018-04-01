@@ -5,10 +5,10 @@ import MyRating from './MyRating';
 import { APP_BLUE } from '../utlis/constants';
 
 
-class BeerItem extends Component {
+class RatingItem extends Component {
     render() {
-        const { beer, icon, onPress } = this.props;
-        // console.log(icon);
+        const { name, icon, onPress } = this.props;
+
         return (
             <TouchableWithoutFeedback
                 onPress={onPress}
@@ -16,7 +16,7 @@ class BeerItem extends Component {
                 <View>
                     <CardSection>
                         <MyRating
-                            label={beer.name}
+                            label={name}
                             startingValue={4}
                             readonly
                         />
@@ -28,4 +28,4 @@ class BeerItem extends Component {
     }
 }
 
-export default BeerItem;
+export default RatingItem;

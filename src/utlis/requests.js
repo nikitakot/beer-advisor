@@ -27,3 +27,8 @@ export function postABar({ name, address, lat, lng, phone, beerList, uid }) {
     });
 }
 
+export function fetchBarList() {
+    return fetch(APP_URL + '/get-bars')
+        .then(res => res.json());
+}
+

@@ -10,6 +10,10 @@ export const FETCH_BEER_LIST = 'fetch_beer_list';
 export const FETCHING_BEER_LIST_FAIL = 'fetching_beer_list_fail';
 export const FETCHING_BEER_LIST = 'fetching_beer_list';
 
+export const FETCH_BAR_LIST = 'fetch_bar_list';
+export const FETCHING_BAR_LIST = 'fetching_bar_list';
+export const FETCHING_BAR_LIST_FAIL = 'fetching_bar_list_fail';
+
 export const BEER_SELECTED = 'beer_selected';
 export const BEER_UNSELECTED = 'beer_unselected';
 export const BAR_UPDATE = 'bar_update';

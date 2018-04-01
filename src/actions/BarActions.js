@@ -67,13 +67,12 @@ export const createABar = (props) => {
     return (dispatch) => {
         dispatch({ type: ADDING_A_BAR });
         postABar(props)
-            .then(res => {
-                console.log(res);
+            .then(() => {
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {
+                console.error(e);
                 dispatch({ type: ADD_A_BAR_FAIL });
-                console.error('Bar POST fail.', e);
             });
     };
 };
