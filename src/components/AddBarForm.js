@@ -63,6 +63,7 @@ class AddBarForm extends React.Component {
                         </CardSection>
                         <CardSection>
                             <Map
+                                showsUserLocation
                                 lat={lat}
                                 lng={lng}
                                 style={{ height: 300, flex: 1, width: null }}

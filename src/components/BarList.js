@@ -36,6 +36,7 @@ class BarList extends React.Component {
         return this.props.barList.map((bar, k) =>
             <RatingItem
                 onPress={() => {
+                    this.props.navigation.navigate('Bar', { bar });
                 }}
                 icon={this.getIcon()}
                 key={k}

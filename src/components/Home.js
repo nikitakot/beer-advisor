@@ -8,7 +8,10 @@ class Home extends React.Component {
 
     render() {
         return (
-            <Map style={{ flex: 1 }} />
+            <Map
+                showsUserLocation
+                style={{ flex: 1 }}
+            />
         );
     }
 }
