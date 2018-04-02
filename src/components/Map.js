@@ -43,7 +43,7 @@ export default class Map extends React.Component {
         return (
             <MapView
                 minZoomLevel={8}
-                maxZoomLevel={16}
+                maxZoomLevel={20}
                 style={style}
                 followsUserLocation={this.state.focusUser}
                 showsUserLocation
