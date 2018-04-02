@@ -6,11 +6,11 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.mapRef = null;
-        this.state = { focusUser: true };
+        this.state = { focusUser: props.zoomUser };
     }
 
     componentDidMount() {
-        if (this.props.showsUserLocation) {
+        if (this.props.zoomUser) {
             setTimeout(() => {
                 this.setState({ focusUser: false });
             }, 5000);
@@ -38,7 +38,7 @@ export default class Map extends React.Component {
     }
 
     render() {
-        const { style, children, showsUserLocation } = this.props;
+        const { style, children } = this.props;
 
         return (
             <MapView
@@ -46,7 +46,7 @@ export default class Map extends React.Component {
                 maxZoomLevel={16}
                 style={style}
                 followsUserLocation={this.state.focusUser}
-                showsUserLocation={showsUserLocation}
+                showsUserLocation
                 ref={(ref) => {
                     this.mapRef = ref;
                 }}

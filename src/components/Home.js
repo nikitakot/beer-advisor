@@ -9,7 +9,7 @@ class Home extends React.Component {
     render() {
         return (
             <Map
-                showsUserLocation
+                zoomUser
                 style={{ flex: 1 }}
             />
         );
