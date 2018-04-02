@@ -77,11 +77,18 @@ class Bar extends Component {
                     <CardSection>
                         <Text style={TEXT_STYLE}>{bar.address}</Text>
                     </CardSection>
+                    {bar.phone ?
+                        <View>
+                            <CardSection>
+                                <Text style={HEADER_STYLE}>Phone</Text>
+                            </CardSection>
+                            <CardSection>
+                                <Text style={TEXT_STYLE}>{bar.phone}</Text>
+                            </CardSection>
+                        </View>
+                        : null}
                     <CardSection>
-                        <Text style={HEADER_STYLE}>Phone</Text>
-                    </CardSection>
-                    <CardSection>
-                        <Text style={TEXT_STYLE}>{bar.phone}</Text>
+                        <Text style={HEADER_STYLE}>Bar Menu</Text>
                     </CardSection>
                     <View>
                         {this.renderBeers()}
