@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { NavigationActions } from 'react-navigation';
 
 let _navigator;

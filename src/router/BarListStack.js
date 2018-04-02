@@ -3,6 +3,7 @@ import BarList from '../components/BarList';
 import AddBarForm from '../components/AddBarForm';
 import SelectBeeList from '../components/SelectBeeList';
 import Bar from '../components/Bar';
+import Beer from '../components/Beer';
 
 export const BarListStack = StackNavigator({
     BarList: {
@@ -16,5 +17,8 @@ export const BarListStack = StackNavigator({
     },
     Bar: {
         screen: Bar
+    },
+    Beer: {
+        screen: Beer
     }
 });

@@ -45,7 +45,9 @@ app.get('/get-bars', (req, res) => {
         .then(snapshot => {
             const barList = [];
             snapshot.forEach(doc => {
-                barList.push(doc.data());
+                const bar = doc.data();
+                bar.id = doc.id;
+                barList.push(bar);
             });
             res.status(200).json({ barList });
         })
@@ -65,9 +67,8 @@ app.get('/get-bars-beers', (req, res) => {
                     );
                     return Promise.all(promises);
                 });
-        }).then(data => {
-            console.log(data);
-            res.status(200).json({ data });
+        }).then(beerList => {
+            res.status(200).json({ beerList });
         }).catch(e => {
             res.sendStatus(500);
             console.log('Error getting documents', e);

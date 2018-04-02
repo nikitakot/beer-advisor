@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
-import { ScrollView, Text } from 'react-native';
+import { APP_BLUE, HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
+import { ScrollView, Text, View } from 'react-native';
 import { Card, CardSection } from './common';
 import { MapView } from 'expo';
 import Map from './Map';
+import { getBarsBeers } from '../utlis/requests';
+import RatingItem from './RatingItem';
+import NavigationService from '../utlis/NavigationService';
+import { Icon } from 'react-native-elements';
 
 class Bar extends Component {
 
@@ -13,6 +17,33 @@ class Bar extends Component {
             title: params.bar.name
         };
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            beerList: []
+        };
+    }
+
+    componentWillMount() {
+        const { bar } = this.props.navigation.state.params;
+        getBarsBeers(bar.id).then(({ beerList }) => this.setState({ beerList }));
+    }
+
+    getIcon() {
+        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+    }
+
+    renderBeers() {
+        return this.state.beerList.map((beer, key) =>
+            <RatingItem
+                onPress={() => NavigationService.navigate('Beer', { beer })}
+                icon={this.getIcon()}
+                key={key}
+                name={beer.name}
+            />
+        );
+    }
 
     renderMarkers() {
         const { bar } = this.props.navigation.state.params;
@@ -52,6 +83,9 @@ class Bar extends Component {
                     <CardSection>
                         <Text style={TEXT_STYLE}>{bar.phone}</Text>
                     </CardSection>
+                    <View>
+                        {this.renderBeers()}
+                    </View>
                 </Card>
             </ScrollView>
         );

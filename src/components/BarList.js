@@ -3,7 +3,7 @@ import { Button, Card, CardSection, Spinner } from './common';
 import NavigationService from '../utlis/NavigationService';
 import { APP_BLUE, ERROR_TEXT_STYLE } from '../utlis/constants';
 import { connect } from 'react-redux';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { fetchBarsList } from '../actions/BarActions';
 import { Icon } from 'react-native-elements';
 import RatingItem from './RatingItem';
@@ -58,11 +58,11 @@ class BarList extends React.Component {
                             }}
                         >Add a new bar</Button>
                     </CardSection>
-                    <Card>
+                    <View>
                         {loading ? <Spinner /> : null}
                         {error ? <Text style={ERROR_TEXT_STYLE}>{error}</Text> : null}
                         {this.renderList()}
-                    </Card>
+                    </View>
                 </Card>
             </ScrollView>
         );
