@@ -16,8 +16,23 @@ export function getGeoCodeReverse(lat, lng) {
         .then(response => response.json());
 }
 
-export function postABar({ name, address, lat, lng, phone, beerList, uid }) {
-    const data = { name, address, lat, lng, phone, beerList, uid };
+export function postABar({
+                             name, address, lat, lng, phone, beerList, uid, openTimeM,
+                             openTimeH, closeTimeM, closeTimeH
+                         }) {
+    const data = {
+        name,
+        address,
+        lat,
+        lng,
+        phone,
+        beerList,
+        uid,
+        openTimeM,
+        openTimeH,
+        closeTimeM,
+        closeTimeH
+    };
     return fetch(APP_URL + '/add-bar', {
         method: 'POST',
         body: JSON.stringify(data),

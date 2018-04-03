@@ -12,7 +12,11 @@ const INITIAL_STATE = {
     beerList: [],
     error: '',
     addressLoading: false,
-    putLoading: false
+    putLoading: false,
+    openTimeM: null,
+    openTimeH: null,
+    closeTimeM: null,
+    closeTimeH: null,
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { APP_BLUE, TEXT_STYLE } from '../../utlis/constants';
 
-const TimePickerInput = ({ label, value, onChangeText, keyboardType }) => {
+const TimePickerInput = ({ label, minuteValue, hourValue, keyboardType, onHourChange, onMinuteChange }) => {
     const { inputStyle, labelStyle, containerStyle } = styles;
     return (
         <View style={containerStyle}>
@@ -13,8 +13,8 @@ const TimePickerInput = ({ label, value, onChangeText, keyboardType }) => {
                 placeholder={'HH'}
                 autoCorrect={false}
                 style={inputStyle}
-                value={value}
-                onChangeText={onChangeText}
+                value={hourValue}
+                onChangeText={onHourChange}
             />
             <Text style={{ fontSize: 18 }}>:</Text>
             <TextInput
@@ -23,8 +23,8 @@ const TimePickerInput = ({ label, value, onChangeText, keyboardType }) => {
                 placeholder={'MM'}
                 autoCorrect={false}
                 style={inputStyle}
-                value={value}
-                onChangeText={onChangeText}
+                value={minuteValue}
+                onChangeText={onMinuteChange}
             />
         </View>
     );

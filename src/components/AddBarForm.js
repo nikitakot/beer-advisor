@@ -91,11 +91,23 @@ class AddBarForm extends React.Component {
                         <CardSection>
                             <TimePickerInput
                                 label="Open Time"
+                                minuteValue={this.props.openTimeM}
+                                hourValue={this.props.openTimeH}
+                                onMinuteChange={value =>
+                                    this.props.barUpdate({ prop: 'openTimeM', value })}
+                                onHourChange={value =>
+                                    this.props.barUpdate({ prop: 'openTimeH', value })}
                             />
                         </CardSection>
                         <CardSection>
                             <TimePickerInput
                                 label="Close Time"
+                                minuteValue={this.props.closeTimeM}
+                                hourValue={this.props.closeTimeH}
+                                onMinuteChange={value =>
+                                    this.props.barUpdate({ prop: 'closeTimeM', value })}
+                                onHourChange={value =>
+                                    this.props.barUpdate({ prop: 'closeTimeH', value })}
                             />
                         </CardSection>
                         <CardSection>
@@ -114,9 +126,34 @@ class AddBarForm extends React.Component {
 }
 
 const mapStateToProps = ({ addABar }) => {
-    const { name, phone, address, lat, lng, error, addressLoading, beerList } = addABar;
+    const {
+        name,
+        phone,
+        address,
+        lat, lng,
+        error,
+        addressLoading,
+        beerList,
+        openTimeM,
+        openTimeH,
+        closeTimeM,
+        closeTimeH
+    } = addABar;
 
-    return { name, phone, address, lat, lng, error, addressLoading, beerList };
+    return {
+        name,
+        phone,
+        address,
+        lat,
+        lng,
+        error,
+        addressLoading,
+        beerList,
+        openTimeM,
+        openTimeH,
+        closeTimeM,
+        closeTimeH
+    };
 };
 
 export default connect(mapStateToProps,
