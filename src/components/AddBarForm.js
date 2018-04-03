@@ -7,6 +7,7 @@ import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
 import { barUpdate, createABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
+import { TimePickerInput } from './common/TimePickerInput';
 
 
 class AddBarForm extends React.Component {
@@ -79,11 +80,22 @@ class AddBarForm extends React.Component {
                         </CardSection>
                         <CardSection>
                             <Input
+                                keyboardType={'phone-pad'}
                                 label="Phone"
                                 placeholder="Enter the bar phone number"
                                 value={this.props.phone}
                                 onChangeText={value =>
                                     this.props.barUpdate({ prop: 'phone', value })}
+                            />
+                        </CardSection>
+                        <CardSection>
+                            <TimePickerInput
+                                label="Open Time"
+                            />
+                        </CardSection>
+                        <CardSection>
+                            <TimePickerInput
+                                label="Close Time"
                             />
                         </CardSection>
                         <CardSection>

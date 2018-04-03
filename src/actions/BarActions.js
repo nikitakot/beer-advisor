@@ -69,7 +69,7 @@ export const createABar = (props) => {
         dispatch({ type: ADDING_A_BAR });
         postABar(props)
             .then(() => {
-                console.log('uspech');
+                console.log('ADD_A_BAR_SUCCESS');
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {
