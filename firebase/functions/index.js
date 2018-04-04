@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors')({ origin: true });
 const cookieParser = require('cookie-parser')();
 const bodyParser = require('body-parser');
+const arrayToObject = require('./utils/arrayToObject');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.post('/add-bar', (req, res) => {
     const bar = req.body;
+    bar.beerList = arrayToObject(bar.beerList);
     firestore.collection('bars').add(bar)
         .then(ref => {
             const promises = bar.beerList.map(beerId => {
@@ -23,16 +25,29 @@ app.post('/add-bar', (req, res) => {
                 return firestore.runTransaction(t => {
                     return t.get(beerRef)
                         .then(beer => {
-                            const bars = beer.data().bars || [];
-                            bars.push(ref.id);
+                            const bars = beer.data().bars || {};
+                            bars[ref.id] = true;
                             return t.update(beerRef, { bars });
                         });
                 });
             });
             Promise.all(promises).then(() => {
-                console.log(`Bar with id ${ref.id} created.`);
+                console.log(`Bar with id ${ref.id} was created.`);
                 res.sendStatus(200);
             });
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
+app.post('/update-beer-list', (req, res) => {
+    const { id, beerList } = req.body;
+    firestore.collection('bars').doc(id).update({ beerList: arrayToObject(beerList) })
+        .then(() => {
+            console.log(`Bar with id ${id} was updated.`);
+            res.sendStatus(200);
         })
         .catch(e => {
             console.log('Error: ', e);
