@@ -4,6 +4,8 @@ import { fetchBeerList } from '../actions/BeerActions';
 import { Icon } from 'react-native-elements';
 import { APP_BLUE } from '../utlis/constants';
 import AdjustableBeerList from './AdjustableBeerList';
+import { View } from 'react-native';
+import { Button, CardSection } from './common';
 
 class AttachABeer extends React.Component {
     static navigationOptions = {
@@ -48,11 +50,28 @@ class AttachABeer extends React.Component {
         return <Icon name="done" size={35} color='#cccccc' />;
     }
 
+    updateBeerList() {
+
+    }
+
     render() {
-        return (<AdjustableBeerList
-            onPress={this.onPress.bind(this)}
-            getIcon={this.getIcon.bind(this)}
-        />);
+        return (
+            <View>
+                <AdjustableBeerList
+                    onPress={this.onPress.bind(this)}
+                    getIcon={this.getIcon.bind(this)}
+                />
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            this.updateBeerList();
+                        }}
+                    >
+                        Save
+                    </Button>
+                </CardSection>
+            </View>
+        );
     }
 }
 
