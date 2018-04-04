@@ -1,5 +1,6 @@
 export const EMAIL_REGEX = /\S+@\S+\.\S+/;
 export const PHONE_REGEX = /^\+[1-9]{1}[0-9]{3,14}$/;
+export const TIME_REGEX = /([01]?[0-9]|2[0-3]):[0-5][0-9]/;
 
 export const ERROR_TEXT_STYLE = {
     fontSize: 16,

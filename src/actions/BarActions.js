@@ -6,7 +6,7 @@ import {
     VALIDATION_ERROR
 } from './types';
 import { getBarList, getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
-import { PHONE_REGEX } from '../utlis/constants';
+import { PHONE_REGEX, TIME_REGEX } from '../utlis/constants';
 
 export const beerSelected = id => {
     return {
@@ -108,7 +108,7 @@ const dispatchGeocodeSuccess = (res, dispatch) => {
     });
 };
 
-const validateBarForm = ({ name, address, lat, lng, phone }) => {
+const validateBarForm = ({ name, address, lat, lng, phone, openTimeH, openTimeM, closeTimeH, closeTimeM }) => {
     if (!name) {
         return {
             type: VALIDATION_ERROR,
@@ -128,5 +128,15 @@ const validateBarForm = ({ name, address, lat, lng, phone }) => {
             type: VALIDATION_ERROR,
             payload: 'Phone is badly formatted.'
         };
+    }
+
+    if (openTimeH || openTimeM || closeTimeH || closeTimeM) {
+        if (!TIME_REGEX.test(`${openTimeH}:${openTimeM}`)
+            || !TIME_REGEX.test(`${closeTimeH}:${closeTimeM}`)) {
+            return {
+                type: VALIDATION_ERROR,
+                payload: 'Open hours must be in 24 hours format.'
+            };
+        }
     }
 };
