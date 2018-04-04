@@ -20,9 +20,13 @@ class Home extends React.Component {
                 key={k}
                 coordinate={{ latitude: bar.lat, longitude: bar.lng }}
                 onCalloutPress={() => this.props.navigation.navigate('Bar', { bar })}
-        >
+            >
                 <MapView.Callout>
-                    <Text>{bar.name}</Text>
+                    <Text
+                        style={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}
+                    >
+                        {bar.name}
+                    </Text>
                 </MapView.Callout>
             </MapView.Marker>)
         );
