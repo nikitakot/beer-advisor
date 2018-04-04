@@ -20,21 +20,8 @@ app.post('/add-bar', (req, res) => {
     bar.beerList = arrayToObject(bar.beerList);
     firestore.collection('bars').add(bar)
         .then(ref => {
-            const promises = bar.beerList.map(beerId => {
-                const beerRef = firestore.collection('beers').doc(beerId);
-                return firestore.runTransaction(t => {
-                    return t.get(beerRef)
-                        .then(beer => {
-                            const bars = beer.data().bars || {};
-                            bars[ref.id] = true;
-                            return t.update(beerRef, { bars });
-                        });
-                });
-            });
-            Promise.all(promises).then(() => {
-                console.log(`Bar with id ${ref.id} was created.`);
-                res.sendStatus(200);
-            });
+            console.log(`Bar with id ${ref.id} was created.`);
+            res.sendStatus(200);
         })
         .catch(e => {
             console.log('Error: ', e);
@@ -62,6 +49,7 @@ app.get('/get-bars', (req, res) => {
             snapshot.forEach(doc => {
                 const bar = doc.data();
                 bar.id = doc.id;
+                bar.beerList = Object.keys(bar.beerList);
                 barList.push(bar);
             });
             res.status(200).json({ barList });
@@ -77,7 +65,7 @@ app.get('/get-bars-beers', (req, res) => {
         firestore.runTransaction(t => {
             return t.get(firestore.collection('bars').doc(id))
                 .then(bar => {
-                    const promises = bar.data().beerList.map(beerId =>
+                    const promises = Object.keys(bar.data().beerList).map(beerId =>
                         t.get(firestore.collection('beers').doc(beerId)).then(beer => beer.data())
                     );
                     return Promise.all(promises);
