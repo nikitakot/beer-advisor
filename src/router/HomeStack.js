@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from '../components/Home';
 import Bar from '../components/Bar';
 import Beer from '../components/Beer';
+import AttachABeer from '../components/AttachABeer';
 
 export const HomeStack = StackNavigator({
     Home: {
@@ -12,6 +13,9 @@ export const HomeStack = StackNavigator({
     },
     Beer: {
         screen: Beer
+    },
+    AttachABeer: {
+        screen: AttachABeer
     }
 
 });

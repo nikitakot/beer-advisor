@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { APP_BLUE, HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
 import { ScrollView, Text, View } from 'react-native';
-import { Card, CardSection } from './common';
+import { Button, Card, CardSection } from './common';
 import { MapView } from 'expo';
 import Map from './Map';
 import { getBarsBeers } from '../utlis/requests';
@@ -93,6 +93,15 @@ class Bar extends Component {
                     <View>
                         {this.renderBeers()}
                     </View>
+                    <CardSection>
+                        <Button
+                            onPress={() => {
+                                NavigationService.navigate('AttachABeer', { bar });
+                            }}
+                        >
+                            Add a beer
+                        </Button>
+                    </CardSection>
                 </Card>
             </ScrollView>
         );
