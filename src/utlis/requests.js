@@ -53,10 +53,10 @@ export function getBarsBeers(id) {
         .then(res => res.json());
 }
 
-export function updateBarsBeers(bar) {
-    return fetch(APP_URL + '/add-bar', {
+export function updateBarsBeers(id, beerList) {
+    return fetch(APP_URL + '/update-beer-list', {
         method: 'POST',
-        body: JSON.stringify({ id: bar.id, beerList: bar.beerList }),
+        body: JSON.stringify({ id, beerList }),
         headers: {
             'content-type': 'application/json'
         }

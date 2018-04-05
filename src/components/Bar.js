@@ -26,6 +26,10 @@ class Bar extends Component {
     }
 
     componentWillMount() {
+        this.getBarsBeers();
+    }
+
+    getBarsBeers() {
         const { bar } = this.props.navigation.state.params;
         getBarsBeers(bar.id).then(({ beerList }) => this.setState({ beerList }));
     }
@@ -96,7 +100,12 @@ class Bar extends Component {
                     <CardSection>
                         <Button
                             onPress={() => {
-                                NavigationService.navigate('AttachABeer', { bar });
+                                NavigationService.navigate('AttachABeer',
+                                    {
+                                        bar,
+                                        getBarsBeers: () => this.getBarsBeers(),
+                                        selectedBeers: this.state.beerList
+                                    });
                             }}
                         >
                             Add a beer

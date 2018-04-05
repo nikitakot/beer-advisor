@@ -31,7 +31,8 @@ app.post('/add-bar', (req, res) => {
 
 app.post('/update-beer-list', (req, res) => {
     const { id, beerList } = req.body;
-    firestore.collection('bars').doc(id).update({ beerList: arrayToObject(beerList) })
+    const newBeerList = arrayToObject(beerList);
+    firestore.collection('bars').doc(id).update({ beerList: newBeerList })
         .then(() => {
             console.log(`Bar with id ${id} was updated.`);
             res.sendStatus(200);
@@ -66,7 +67,12 @@ app.get('/get-bars-beers', (req, res) => {
             return t.get(firestore.collection('bars').doc(id))
                 .then(bar => {
                     const promises = Object.keys(bar.data().beerList).map(beerId =>
-                        t.get(firestore.collection('beers').doc(beerId)).then(beer => beer.data())
+                        t.get(firestore.collection('beers').doc(beerId)).then(beer => {
+                                const beerFE = beer.data();
+                                beerFE.id = beerId;
+                                return beerFE;
+                            }
+                        )
                     );
                     return Promise.all(promises);
                 });

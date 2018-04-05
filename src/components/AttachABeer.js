@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchBeerList } from '../actions/BeerActions';
 import { Icon } from 'react-native-elements';
 import { APP_BLUE } from '../utlis/constants';
 import AdjustableBeerList from './AdjustableBeerList';
 import { View } from 'react-native';
 import { Button, CardSection } from './common';
+import { updateBarsBeers } from '../utlis/requests';
 
 class AttachABeer extends React.Component {
     static navigationOptions = {
@@ -15,21 +14,14 @@ class AttachABeer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            beerList: [],
             selectedBeers: []
         };
     }
 
     componentWillMount() {
-        this.props.fetchBeerList();
         this.setState({
-            beerList: this.props.beerList,
-            selectedBeers: this.props.navigation.state.params.bar.beerList
+            selectedBeers: this.props.navigation.state.params.selectedBeers.map(beer => beer.id)
         });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({ beerList: nextProps.beerList });
     }
 
     onPress(beer) {
@@ -51,7 +43,15 @@ class AttachABeer extends React.Component {
     }
 
     updateBeerList() {
-
+        const { bar, getBarsBeers } = this.props.navigation.state.params;
+        updateBarsBeers(bar.id, this.state.selectedBeers)
+            .then(() => {
+                console.log(`Bar ${bar.id} was updated.`);
+                getBarsBeers();
+            })
+            .catch(e => {
+                console.error(e);
+            });
     }
 
     render() {
@@ -75,6 +75,4 @@ class AttachABeer extends React.Component {
     }
 }
 
-const mapStateToProps = ({ beerList }) => beerList;
-
-export default connect(mapStateToProps, { fetchBeerList })(AttachABeer);
+export default AttachABeer;
