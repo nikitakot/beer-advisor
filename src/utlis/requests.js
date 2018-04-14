@@ -63,3 +63,23 @@ export function updateBarsBeers(id, beerList) {
     });
 }
 
+export function leaveABarRating(id, rating) {
+    return fetch(APP_URL + '/leave-bar-rating', {
+        method: 'POST',
+        body: JSON.stringify({ id, rating }),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+}
+
+export function leaveABeerRating(id, rating) {
+    return fetch(APP_URL + '/leave-beer-rating', {
+        method: 'POST',
+        body: JSON.stringify({ id, rating }),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+}
+

@@ -1,6 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import BeerList from '../components/BeerList';
 import Beer from '../components/Beer';
+import Rate from '../components/Rate';
 
 export const BeerListStack = StackNavigator({
     BeerList: {
@@ -8,5 +9,8 @@ export const BeerListStack = StackNavigator({
     },
     Beer: {
         screen: Beer
+    },
+    Rate: {
+        screen: Rate
     }
 });

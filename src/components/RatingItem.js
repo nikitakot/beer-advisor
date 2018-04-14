@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { TouchableWithoutFeedback, View } from 'react-native';
 import { CardSection } from './common';
 import MyRating from './MyRating';
-import { APP_BLUE } from '../utlis/constants';
 
 
 class RatingItem extends Component {
