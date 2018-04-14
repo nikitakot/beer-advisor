@@ -134,7 +134,7 @@ app.get('/get-beers', (req, res) => {
 });
 
 app.post('/delete-beer', (req, res) => {
-    const beerId = req.body;
+    const { beerId } = req.body;
     firestore.collection('beers').doc(beerId).delete()
         .then(ref => {
             console.log(`Beer with id ${ref.id} was deleted.`);
