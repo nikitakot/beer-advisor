@@ -116,4 +116,34 @@ app.post('/add-beer', (req, res) => {
         });
 });
 
+app.get('/get-beers', (req, res) => {
+    firestore.collection('beers').get()
+        .then(snapshot => {
+            const beerList = [];
+            snapshot.forEach(doc => {
+                const beer = doc.data();
+                beer.id = doc.id;
+                beerList.push(beer);
+            });
+            res.status(200).json({ beerList });
+        })
+        .catch(e => {
+            res.sendStatus(500);
+            console.log('Error getting beer documents', e);
+        });
+});
+
+app.post('/delete-beer', (req, res) => {
+    const beerId = req.body;
+    firestore.collection('beers').doc(beerId).delete()
+        .then(ref => {
+            console.log(`Beer with id ${ref.id} was deleted.`);
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
 exports.app = functions.https.onRequest(app);
