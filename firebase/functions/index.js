@@ -20,7 +20,7 @@ app.post('/add-bar', (req, res) => {
     bar.beerList = arrayToObject(bar.beerList);
     firestore.collection('bars').add(bar)
         .then(ref => {
-            console.log(`Bar with id ${ref.id} was created.`);
+            console.log(`Bar with id ${ref.id} was added.`);
             res.sendStatus(200);
         })
         .catch(e => {
@@ -101,6 +101,20 @@ app.get('/leave-beer-rating', (req, res) => {
         res.sendStatus(500);
         console.log('Error getting documents', e);
     });
+});
+
+app.post('/add-beer', (req, res) => {
+    const beer = req.body;
+    console.log(beer);
+    firestore.collection('beers').add(beer)
+        .then(ref => {
+            console.log(`Beer with id ${ref.id} was added.`);
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
 });
 
 exports.app = functions.https.onRequest(app);
