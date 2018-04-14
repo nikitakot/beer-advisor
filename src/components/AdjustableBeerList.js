@@ -20,6 +20,7 @@ class AdjustableBeerList extends React.Component {
                 icon={getIcon(beer)}
                 key={beer.id}
                 name={beer.name}
+                avgRating={beer.avgRating}
             />
         );
     }

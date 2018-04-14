@@ -6,7 +6,7 @@ import MyRating from './MyRating';
 
 class RatingItem extends Component {
     render() {
-        const { name, icon, onPress } = this.props;
+        const { name, icon, onPress, avgRating } = this.props;
 
         return (
             <TouchableWithoutFeedback
@@ -16,7 +16,7 @@ class RatingItem extends Component {
                     <CardSection>
                         <MyRating
                             label={name}
-                            startingValue={4}
+                            startingValue={avgRating}
                             readonly
                         />
                         {icon}

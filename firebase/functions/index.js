@@ -85,7 +85,7 @@ app.get('/get-bars-beers', (req, res) => {
     }
 );
 
-app.get('/leave-beer-rating', (req, res) => {
+app.post('/leave-beer-rating', (req, res) => {
     const { id, rating } = req.body;
     firestore.runTransaction(t => {
         return t.get(firestore.collection('beers').doc(id))
@@ -105,7 +105,6 @@ app.get('/leave-beer-rating', (req, res) => {
 
 app.post('/add-beer', (req, res) => {
     const beer = req.body;
-    console.log(beer);
     firestore.collection('beers').add(beer)
         .then(ref => {
             console.log(`Beer with id ${ref.id} was added.`);

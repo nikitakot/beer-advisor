@@ -45,6 +45,7 @@ class Bar extends Component {
                 icon={this.getIcon()}
                 key={key}
                 name={beer.name}
+                avgRating={beer.avgRating}
             />
         );
     }
