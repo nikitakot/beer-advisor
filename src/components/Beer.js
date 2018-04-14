@@ -4,6 +4,7 @@ import { Card, CardSection } from './common';
 import { HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
 import { Button } from './common/Button';
 import NavigationService from '../utlis/NavigationService';
+import { leaveABeerRating } from '../utlis/requests';
 
 class Beer extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -11,6 +12,11 @@ class Beer extends Component {
             title: navigation.state.params.beer.name
         };
     };
+
+    leaveARating(rating) {
+        const { beer } = this.props.navigation.state.params;
+        return leaveABeerRating(beer.id, rating);
+    }
 
     render() {
         const { beer } = this.props.navigation.state.params;
@@ -26,7 +32,11 @@ class Beer extends Component {
                     <CardSection>
                         <Button
                             onPress={() => {
-                                NavigationService.navigate('Rate', { sub: beer });
+                                NavigationService.navigate('Rate',
+                                    {
+                                        sub: beer,
+                                        onPress: rating => this.leaveARating(rating)
+                                    });
                             }}
                         >
                             Rate this beer

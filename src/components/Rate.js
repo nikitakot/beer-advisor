@@ -20,10 +20,10 @@ class Rate extends Component {
         };
     }
 
-    onPress(sub) {
+    onPress(rating) {
         const { onPress } = this.props.navigation.state.params;
         this.setState({ loading: true });
-        onPress(sub)
+        onPress(rating)
             .then(() => {
                 this.props.navigation.goBack();
                 this.setState({ loading: false });
@@ -34,14 +34,12 @@ class Rate extends Component {
     }
 
     renderButton() {
-        const { sub } = this.props.navigation.state.params;
-
         if (this.state.loading) {
-            return <Spinner size="large"/>;
+            return <Spinner size="large" />;
         }
 
         return (
-            <Button onPress={() => this.onPress(sub)}>
+            <Button onPress={() => this.onPress(this.state.rating)}>
                 Leave a rating
             </Button>
         );
@@ -55,10 +53,11 @@ class Rate extends Component {
                     <MyRating
                         label={sub.name}
                         startingValue={sub.rating}
+                        onFinishRating={rating => this.setState({ rating })}
                     />
                 </CardSection>
                 <Text style={ERROR_TEXT_STYLE}>
-                    {this.props.error}
+                    {this.state.error}
                 </Text>
                 <CardSection>
                     {this.renderButton()}
