@@ -52,7 +52,7 @@ class Rate extends Component {
                 <CardSection>
                     <MyRating
                         label={sub.name}
-                        startingValue={sub.rating}
+                        startingValue={sub.avgRating}
                         onFinishRating={rating => this.setState({ rating })}
                     />
                 </CardSection>

@@ -5,6 +5,7 @@ import { HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
 import { Button } from './common/Button';
 import NavigationService from '../utlis/NavigationService';
 import { leaveABeerRating } from '../utlis/requests';
+import MyRating from './MyRating';
 
 class Beer extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -28,6 +29,13 @@ class Beer extends Component {
                     </CardSection>
                     <CardSection>
                         <Text style={TEXT_STYLE}>{beer.description}</Text>
+                    </CardSection>
+                    <CardSection>
+                        <MyRating
+                            label='Rating'
+                            startingValue={beer.avgRating}
+                            readonly
+                        />
                     </CardSection>
                     <CardSection>
                         <Button

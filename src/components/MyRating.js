@@ -5,6 +5,13 @@ import { TEXT_STYLE } from '../utlis/constants';
 
 export default class MyRating extends Component {
 
+    componentWillReceiveProps(nextProps) {
+        const { onFinishRating } = nextProps;
+        if (onFinishRating !== this.props.onFinishRating) {
+            this.forceUpdate();
+        }
+    }
+
     render() {
         const { label, startingValue, onFinishRating, readonly } = this.props;
         const { ratingStyle, containerStyle, labelStyle } = styles;
