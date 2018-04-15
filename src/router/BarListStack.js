@@ -5,6 +5,7 @@ import SelectBeeList from '../components/SelectBeeList';
 import Bar from '../components/Bar';
 import Beer from '../components/Beer';
 import AttachABeer from '../components/AttachABeer';
+import Rate from '../components/Rate';
 
 export const BarListStack = StackNavigator({
     BarList: {
@@ -24,5 +25,8 @@ export const BarListStack = StackNavigator({
     },
     AttachABeer: {
         screen: AttachABeer
+    },
+    Rate: {
+        screen: Rate
     }
 });

@@ -5,13 +5,6 @@ import { TEXT_STYLE } from '../utlis/constants';
 
 export default class MyRating extends Component {
 
-    componentWillReceiveProps(nextProps) {
-        const { onFinishRating } = nextProps;
-        if (onFinishRating !== this.props.onFinishRating) {
-            this.forceUpdate();
-        }
-    }
-
     render() {
         const { label, startingValue, onFinishRating, readonly } = this.props;
         const { ratingStyle, containerStyle, labelStyle } = styles;
@@ -20,8 +13,9 @@ export default class MyRating extends Component {
             <View style={containerStyle}>
                 <Text style={labelStyle}>{label}</Text>
                 <Rating
+                    key={startingValue}
                     style={ratingStyle}
-                    startingValue={startingValue}
+                    startingValue={startingValue || 0}
                     fractions={1}
                     readonly={readonly}
                     imageSize={35}

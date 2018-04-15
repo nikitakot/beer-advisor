@@ -4,7 +4,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { Button, Card, CardSection } from './common';
 import { MapView } from 'expo';
 import Map from './Map';
-import { getBarsBeers } from '../utlis/requests';
+import { getBarsBeers, leaveABarRating } from '../utlis/requests';
 import RatingItem from './RatingItem';
 import NavigationService from '../utlis/NavigationService';
 import { Icon } from 'react-native-elements';
@@ -35,7 +35,12 @@ class Bar extends Component {
     }
 
     getIcon() {
-        return <Icon name="navigate-next" size={35} color={APP_BLUE}/>;
+        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+    }
+
+    leaveARating(rating) {
+        const { bar } = this.props.navigation.state.params;
+        return leaveABarRating(bar.id, rating);
     }
 
     renderBeers() {
@@ -72,7 +77,7 @@ class Bar extends Component {
 
     renderMarkers() {
         const { bar } = this.props.navigation.state.params;
-        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }}/>;
+        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }} />;
     }
 
     render() {
@@ -131,6 +136,19 @@ class Bar extends Component {
                             }}
                         >
                             Add a beer
+                        </Button>
+                    </CardSection>
+                    <CardSection>
+                        <Button
+                            onPress={() => {
+                                NavigationService.navigate('Rate',
+                                    {
+                                        sub: bar,
+                                        onPress: rating => this.leaveARating(rating)
+                                    });
+                            }}
+                        >
+                            Rate this bar
                         </Button>
                     </CardSection>
                 </Card>

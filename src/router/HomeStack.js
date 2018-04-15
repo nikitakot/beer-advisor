@@ -3,6 +3,7 @@ import Home from '../components/Home';
 import Bar from '../components/Bar';
 import Beer from '../components/Beer';
 import AttachABeer from '../components/AttachABeer';
+import Rate from '../components/Rate';
 
 export const HomeStack = StackNavigator({
     Home: {
@@ -16,6 +17,8 @@ export const HomeStack = StackNavigator({
     },
     AttachABeer: {
         screen: AttachABeer
+    },
+    Rate: {
+        screen: Rate
     }
-
 });
