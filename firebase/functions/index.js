@@ -96,7 +96,25 @@ app.post('/leave-beer-rating', (req, res) => {
                 return t.update(firestore.collection('beers').doc(id), { ratings, avgRating });
             });
     }).then(() => {
+        res.sendStatus(200);
+    }).catch(e => {
         res.sendStatus(500);
+        console.log('Error getting documents', e);
+    });
+});
+
+app.post('/leave-bar-rating', (req, res) => {
+    const { id, rating } = req.body;
+    firestore.runTransaction(t => {
+        return t.get(firestore.collection('bars').doc(id))
+            .then(bar => {
+                const ratings = bar.data().ratings || [];
+                ratings.push(rating);
+                const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+                return t.update(firestore.collection('bars').doc(id), { ratings, avgRating });
+            });
+    }).then(() => {
+        res.sendStatus(200);
     }).catch(e => {
         res.sendStatus(500);
         console.log('Error getting documents', e);
