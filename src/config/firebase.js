@@ -20,8 +20,8 @@ export const initializeUser = () => new Promise((resolve, reject) => {
         if (user) {
             resolve(user);
         } else {
-            reject();
+            resolve(null);
         }
-    });
+    }, err => reject(err));
 });
 

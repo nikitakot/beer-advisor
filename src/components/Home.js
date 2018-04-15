@@ -15,11 +15,12 @@ class Home extends React.Component {
     componentWillMount() {
         initializeUser()
             .then(user => {
-                console.log(user);
-                this.props.initUserToStore(user);
+                if (user) {
+                    this.props.initUserToStore(user);
+                }
             })
-            .catch(() => {
-                console.error('Error initializing user');
+            .catch(e => {
+                console.log('Error initializing user', e);
             });
         this.props.fetchBarsList();
     }
