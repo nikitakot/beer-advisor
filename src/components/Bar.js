@@ -35,7 +35,7 @@ class Bar extends Component {
     }
 
     getIcon() {
-        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+        return <Icon name="navigate-next" size={35} color={APP_BLUE}/>;
     }
 
     renderBeers() {
@@ -50,9 +50,29 @@ class Bar extends Component {
         );
     }
 
+    renderOpenHours() {
+        const { closeTimeH, closeTimeM, openTimeH, openTimeM }
+            = this.props.navigation.state.params.bar;
+        if (closeTimeH && closeTimeM && openTimeM && openTimeH) {
+            return (
+                <View>
+                    <CardSection>
+                        <Text style={HEADER_STYLE}>Open Time</Text>
+                    </CardSection>
+                    <CardSection>
+                        <Text style={TEXT_STYLE}>
+                            Open from {openTimeH}:{openTimeM} to {closeTimeH}:{closeTimeM}
+                        </Text>
+                    </CardSection>
+                </View>
+            );
+        }
+        return null;
+    }
+
     renderMarkers() {
         const { bar } = this.props.navigation.state.params;
-        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }} />;
+        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }}/>;
     }
 
     render() {
@@ -92,6 +112,7 @@ class Bar extends Component {
                             </CardSection>
                         </View>
                         : null}
+                    {this.renderOpenHours()}
                     <CardSection>
                         <Text style={HEADER_STYLE}>Bar Menu</Text>
                     </CardSection>
