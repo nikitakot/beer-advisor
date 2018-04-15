@@ -14,5 +14,14 @@ firebase.initializeApp(config);
 export const database = firebase.database();
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-
 export const logOut = () => auth.signOut();
+export const initializeUser = () => new Promise((resolve, reject) => {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            resolve(user);
+        } else {
+            reject();
+        }
+    });
+});
+

@@ -1,5 +1,10 @@
 import {
-    EMAIL_CHANGED, LOGIN_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS, PASSWORD_CHANGED, RESET_FORM,
+    EMAIL_CHANGED,
+    LOGIN_USER,
+    LOGIN_USER_FAIL,
+    LOGIN_USER_SUCCESS,
+    PASSWORD_CHANGED,
+    RESET_FORM,
     VALIDATION_ERROR
 } from './types';
 import { EMAIL_REGEX } from '../utlis/constants';
@@ -68,6 +73,13 @@ const loginUserSuccess = (dispatch, user) => {
 const loginUserFail = (dispatch, error) => {
     console.log(error);
     dispatch({ type: LOGIN_USER_FAIL });
+};
+
+export const initUserToStore = user => {
+    return {
+        type: LOGIN_USER_SUCCESS,
+        payload: user
+    };
 };
 
 const validateEmailAndPassword = (email, password) => {

@@ -4,6 +4,8 @@ import { MapView } from 'expo';
 import { connect } from 'react-redux';
 import { fetchBarsList } from '../actions/BarActions';
 import { Text } from 'react-native';
+import { initializeUser } from '../config/firebase';
+import { initUserToStore } from '../actions/AuthActions';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -11,6 +13,14 @@ class Home extends React.Component {
     };
 
     componentWillMount() {
+        initializeUser()
+            .then(user => {
+                console.log(user);
+                this.props.initUserToStore(user);
+            })
+            .catch(() => {
+                console.error('Error initializing user');
+            });
         this.props.fetchBarsList();
     }
 
@@ -46,5 +56,5 @@ class Home extends React.Component {
 
 const mapStateToProps = ({ barList }) => barList;
 
-export default connect(mapStateToProps, { fetchBarsList })(Home);
+export default connect(mapStateToProps, { fetchBarsList, initUserToStore })(Home);
 
