@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const express = require('express');
-const cors = require('cors')({origin: true});
+const cors = require('cors')({ origin: true });
 const cookieParser = require('cookie-parser')();
 const bodyParser = require('body-parser');
 const arrayToObject = require('./utils/arrayToObject');
@@ -30,9 +30,9 @@ app.post('/add-bar', (req, res) => {
 });
 
 app.post('/update-beer-list', (req, res) => {
-    const {id, beerList} = req.body;
+    const { id, beerList } = req.body;
     const newBeerList = arrayToObject(beerList);
-    firestore.collection('bars').doc(id).update({beerList: newBeerList})
+    firestore.collection('bars').doc(id).update({ beerList: newBeerList })
         .then(() => {
             console.log(`Bar with id ${id} was updated.`);
             res.sendStatus(200);
@@ -53,7 +53,7 @@ app.get('/get-bars', (req, res) => {
                 bar.beerList = Object.keys(bar.beerList);
                 barList.push(bar);
             });
-            res.status(200).json({barList});
+            res.status(200).json({ barList });
         })
         .catch(e => {
             res.sendStatus(500);
@@ -63,8 +63,7 @@ app.get('/get-bars', (req, res) => {
 
 app.get('/get-bars-beers', (req, res) => {
         const id = req.query.id;
-        firestore.runTransaction(t => {
-            return t.get(firestore.collection('bars').doc(id))
+        firestore.runTransaction(t => t.get(firestore.collection('bars').doc(id))
                 .then(bar => {
                     const promises = Object.keys(bar.data().beerList).map(beerId =>
                         t.get(firestore.collection('beers').doc(beerId)).then(beer => {
@@ -75,9 +74,8 @@ app.get('/get-bars-beers', (req, res) => {
                         )
                     );
                     return Promise.all(promises);
-                });
-        }).then(beerList => {
-            res.status(200).json({beerList});
+                })).then(beerList => {
+            res.status(200).json({ beerList });
         }).catch(e => {
             res.sendStatus(500);
             console.log('Error getting documents', e);
@@ -86,16 +84,14 @@ app.get('/get-bars-beers', (req, res) => {
 );
 
 app.post('/leave-beer-rating', (req, res) => {
-    const {id, rating} = req.body;
-    firestore.runTransaction(t => {
-        return t.get(firestore.collection('beers').doc(id))
+    const { id, rating } = req.body;
+    firestore.runTransaction(t => t.get(firestore.collection('beers').doc(id))
             .then(beer => {
                 const ratings = beer.data().ratings || [];
                 ratings.push(rating);
                 const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-                return t.update(firestore.collection('beers').doc(id), {ratings, avgRating});
-            });
-    }).then(() => {
+                return t.update(firestore.collection('beers').doc(id), { ratings, avgRating });
+            })).then(() => {
         res.sendStatus(200);
     }).catch(e => {
         res.sendStatus(500);
@@ -104,16 +100,14 @@ app.post('/leave-beer-rating', (req, res) => {
 });
 
 app.post('/leave-bar-rating', (req, res) => {
-    const {id, rating} = req.body;
-    firestore.runTransaction(t => {
-        return t.get(firestore.collection('bars').doc(id))
+    const { id, rating } = req.body;
+    firestore.runTransaction(t => t.get(firestore.collection('bars').doc(id))
             .then(bar => {
                 const ratings = bar.data().ratings || [];
                 ratings.push(rating);
                 const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-                return t.update(firestore.collection('bars').doc(id), {ratings, avgRating});
-            });
-    }).then(() => {
+                return t.update(firestore.collection('bars').doc(id), { ratings, avgRating });
+            })).then(() => {
         res.sendStatus(200);
     }).catch(e => {
         res.sendStatus(500);
@@ -143,7 +137,7 @@ app.get('/get-beers', (req, res) => {
                 beer.id = doc.id;
                 beerList.push(beer);
             });
-            res.status(200).json({beerList});
+            res.status(200).json({ beerList });
         })
         .catch(e => {
             res.sendStatus(500);
@@ -152,19 +146,22 @@ app.get('/get-beers', (req, res) => {
 });
 
 app.post('/delete-beer', (req, res) => {
-    const {beerId} = req.body;
-    firestore.runTransaction(t => {
-        return t.get(firestore.collection('bars').where("beerList." + beerId, "==", true))
+    const { beerId } = req.body;
+    firestore.runTransaction(t =>
+        t.get(firestore.collection('bars').where(`beerList.${beerId}`, '==', true))
             .then(snapshot => {
                 const promises = [];
                 snapshot.forEach(doc => {
                     const bar = doc.data();
                     delete bar.beerList[beerId];
-                    promises.push(t.update(firestore.collection('bars').doc(doc.id), {beerList: bar.beerList}));
+                    promises.push(
+                        t.update(
+                            firestore.collection('bars').doc(doc.id), { beerList: bar.beerList })
+                    );
                 });
-                return Promise.all(promises).then(() => t.delete(firestore.collection('beers').doc(beerId)));
-            })
-        })
+                return Promise.all(promises)
+                    .then(() => t.delete(firestore.collection('beers').doc(beerId)));
+            }))
         .then(() => {
             console.log(`Beer with id ${beerId} was deleted`);
             res.sendStatus(200);
