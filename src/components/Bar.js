@@ -9,6 +9,7 @@ import RatingItem from './RatingItem';
 import NavigationService from '../utlis/NavigationService';
 import { Icon } from 'react-native-elements';
 import MyRating from './MyRating';
+import { connect } from 'react-redux';
 
 class Bar extends Component {
 
@@ -78,7 +79,43 @@ class Bar extends Component {
 
     renderMarkers() {
         const { bar } = this.props.navigation.state.params;
-        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }} />;
+        return <MapView.Marker coordinate={{ latitude: bar.lat, longitude: bar.lng }}/>;
+    }
+
+    renderButtons() {
+        const { bar } = this.props.navigation.state.params;
+        return this.props.user
+            ?
+            <View>
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('AttachABeer',
+                                {
+                                    bar,
+                                    getBarsBeers: () => this.getBarsBeers(),
+                                    selectedBeers: this.state.beerList
+                                });
+                        }}
+                    >
+                        Add a beer
+                    </Button>
+                </CardSection>
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('Rate',
+                                {
+                                    sub: bar,
+                                    onPress: rating => this.leaveARating(rating)
+                                });
+                        }}
+                    >
+                        Rate this bar
+                    </Button>
+                </CardSection>
+            </View>
+            : null;
     }
 
     render() {
@@ -126,37 +163,16 @@ class Bar extends Component {
                     <View>
                         {this.renderBeers()}
                     </View>
-                    <CardSection>
-                        <Button
-                            onPress={() => {
-                                NavigationService.navigate('AttachABeer',
-                                    {
-                                        bar,
-                                        getBarsBeers: () => this.getBarsBeers(),
-                                        selectedBeers: this.state.beerList
-                                    });
-                            }}
-                        >
-                            Add a beer
-                        </Button>
-                    </CardSection>
-                    <CardSection>
-                        <Button
-                            onPress={() => {
-                                NavigationService.navigate('Rate',
-                                    {
-                                        sub: bar,
-                                        onPress: rating => this.leaveARating(rating)
-                                    });
-                            }}
-                        >
-                            Rate this bar
-                        </Button>
-                    </CardSection>
+                    {this.renderButtons()}
                 </Card>
             </ScrollView>
         );
     }
 }
 
-export default Bar;
+const mapStateToProps = ({ auth }) => {
+    const { user } = auth;
+    return { user };
+};
+
+export default connect(mapStateToProps, null)(Bar);

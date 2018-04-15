@@ -29,7 +29,7 @@ class BarList extends React.Component {
     }
 
     getIcon() {
-        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+        return <Icon name="navigate-next" size={35} color={APP_BLUE}/>;
     }
 
     renderList() {
@@ -46,19 +46,26 @@ class BarList extends React.Component {
         );
     }
 
+    renderAddBarButton() {
+        return this.props.user
+            ?
+            <CardSection>
+                <Button
+                    onPress={() => {
+                        NavigationService.navigate('AddBar');
+                    }}
+                >Add a new bar</Button>
+            </CardSection>
+            : null;
+    }
+
     render() {
         const { loading, error } = this.props;
 
         return (
             <ScrollView>
                 <Card>
-                    <CardSection>
-                        <Button
-                            onPress={() => {
-                                NavigationService.navigate('AddBar');
-                            }}
-                        >Add a new bar</Button>
-                    </CardSection>
+                    {this.renderAddBarButton()}
                     <View>
                         {loading ? <Spinner /> : null}
                         {error ? <Text style={ERROR_TEXT_STYLE}>{error}</Text> : null}
@@ -70,7 +77,10 @@ class BarList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ barList }) => barList;
+const mapStateToProps = ({ barList, auth }) => {
+    const { user } = auth;
+    return { ...barList, user };
+};
 
 export default connect(mapStateToProps, { fetchBarsList })(BarList);
 
