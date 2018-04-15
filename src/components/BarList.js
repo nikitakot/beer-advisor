@@ -41,6 +41,7 @@ class BarList extends React.Component {
                 icon={this.getIcon()}
                 key={k}
                 name={bar.name}
+                avgRating={bar.avgRating}
             />
         );
     }

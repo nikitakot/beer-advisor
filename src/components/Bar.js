@@ -8,6 +8,7 @@ import { getBarsBeers, leaveABarRating } from '../utlis/requests';
 import RatingItem from './RatingItem';
 import NavigationService from '../utlis/NavigationService';
 import { Icon } from 'react-native-elements';
+import MyRating from './MyRating';
 
 class Bar extends Component {
 
@@ -35,7 +36,7 @@ class Bar extends Component {
     }
 
     getIcon() {
-        return <Icon name="navigate-next" size={35} color={APP_BLUE} />;
+        return <Icon name="navigate-next" size={35} color={APP_BLUE}/>;
     }
 
     leaveARating(rating) {
@@ -87,10 +88,11 @@ class Bar extends Component {
             <ScrollView>
                 <Card>
                     <CardSection>
-                        <Text style={HEADER_STYLE}>Bar Name</Text>
-                    </CardSection>
-                    <CardSection>
-                        <Text style={TEXT_STYLE}>{bar.name}</Text>
+                        <MyRating
+                            label={bar.name}
+                            startingValue={bar.avgRating}
+                            readonly
+                        />
                     </CardSection>
                     <CardSection>
                         <Text style={HEADER_STYLE}>Address</Text>

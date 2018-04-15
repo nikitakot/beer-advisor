@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { Button, CardSection } from './common';
 import { APP_BLUE, TEXT_STYLE } from '../utlis/constants';
 import { resetForm } from '../actions/AuthActions';
+import { logOut } from '../config/firebase';
 
 
 class AuthorisedProfile extends Component {
+
+    logOut() {
+        logOut()
+            .then(() => {
+                this.props.resetForm();
+            })
+            .catch(() => {
+                Alert.alert(
+                    'Error',
+                    'Error while logging out',
+                    [
+                        { text: 'OK' }
+                    ],
+                    { cancelable: false }
+                );
+            });
+    }
+
     render() {
         return (
             <View>
@@ -21,7 +40,7 @@ class AuthorisedProfile extends Component {
                 <CardSection>
                     <Button
                         onPress={() => {
-                            this.props.resetForm();
+                            this.logOut();
                         }}
                     >LogOut</Button>
                 </CardSection>

@@ -15,3 +15,4 @@ export const database = firebase.database();
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+export const logOut = () => auth.signOut();
