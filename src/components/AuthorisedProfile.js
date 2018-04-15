@@ -5,6 +5,7 @@ import { Button, CardSection } from './common';
 import { APP_BLUE, TEXT_STYLE } from '../utlis/constants';
 import { resetForm } from '../actions/AuthActions';
 import { logOut } from '../config/firebase';
+import NavigationService from '../utlis/NavigationService';
 
 
 class AuthorisedProfile extends Component {
@@ -13,6 +14,7 @@ class AuthorisedProfile extends Component {
         logOut()
             .then(() => {
                 this.props.resetForm();
+                NavigationService.reset();
             })
             .catch(() => {
                 Alert.alert(

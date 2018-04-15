@@ -18,10 +18,22 @@ function navigate(routeName, params) {
 }
 
 function reset(routeName) {
-    _navigator.dispatch(NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName })],
-    }));
+    if (routeName) {
+        _navigator.dispatch(NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName })
+            ],
+        }));
+    } else {
+        _navigator.dispatch(NavigationActions.reset({
+            index: 0,
+            key: null,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Tabs' })
+            ],
+        }));
+    }
 }
 
 // add other navigation functions that you need and export them
