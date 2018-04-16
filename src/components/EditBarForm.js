@@ -146,7 +146,8 @@ const mapStateToProps = ({ addABar }) => {
         openTimeM,
         openTimeH,
         closeTimeM,
-        closeTimeH
+        closeTimeH,
+        id
     } = addABar;
 
     return {
@@ -161,7 +162,8 @@ const mapStateToProps = ({ addABar }) => {
         openTimeM,
         openTimeH,
         closeTimeM,
-        closeTimeH
+        closeTimeH,
+        id
     };
 };
 

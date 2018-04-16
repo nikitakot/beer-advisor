@@ -44,7 +44,7 @@ export function postABar({
 
 export function updateABar({
                              name, address, lat, lng, phone, beerList, uid, openTimeM,
-                             openTimeH, closeTimeM, closeTimeH
+                             openTimeH, closeTimeM, closeTimeH, id
                          }) {
     const data = {
         name,
@@ -57,7 +57,8 @@ export function updateABar({
         openTimeM,
         openTimeH,
         closeTimeM,
-        closeTimeH
+        closeTimeH,
+        id
     };
 
     return fetch(APP_URL + '/edit-bar', {

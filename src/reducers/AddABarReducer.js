@@ -17,6 +17,7 @@ const INITIAL_STATE = {
     openTimeH: null,
     closeTimeM: null,
     closeTimeH: null,
+    id: null
 };
 
 export default (state = INITIAL_STATE, action) => {

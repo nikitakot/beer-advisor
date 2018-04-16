@@ -29,6 +29,24 @@ app.post('/add-bar', (req, res) => {
         });
 });
 
+app.post('/edit-bar', (req, res) => {
+    const barChange = req.body;
+    barChange.beerList = arrayToObject(barChange.beerList);
+    firestore.runTransaction(t => t.get(firestore.collection('bars').doc(barChange.id))
+        .then(bar => {
+            const changes = bar.data().changes || {};
+            changes[Object.keys(changes).length] = barChange;
+            return t.update(firestore.collection('bars').doc(barChange.id), { changes });
+        }))
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            res.sendStatus(500);
+            console.log('Error editing bar', e);
+        });
+});
+
 app.post('/update-beer-list', (req, res) => {
     const { id, beerList } = req.body;
     const newBeerList = arrayToObject(beerList);
@@ -64,34 +82,36 @@ app.get('/get-bars', (req, res) => {
 app.get('/get-bars-beers', (req, res) => {
         const id = req.query.id;
         firestore.runTransaction(t => t.get(firestore.collection('bars').doc(id))
-                .then(bar => {
-                    const promises = Object.keys(bar.data().beerList).map(beerId =>
-                        t.get(firestore.collection('beers').doc(beerId)).then(beer => {
-                                const beerFE = beer.data();
-                                beerFE.id = beerId;
-                                return beerFE;
-                            }
-                        )
-                    );
-                    return Promise.all(promises);
-                })).then(beerList => {
-            res.status(200).json({ beerList });
-        }).catch(e => {
-            res.sendStatus(500);
-            console.log('Error getting documents', e);
-        });
+            .then(bar => {
+                const promises = Object.keys(bar.data().beerList).map(beerId =>
+                    t.get(firestore.collection('beers').doc(beerId)).then(beer => {
+                            const beerFE = beer.data();
+                            beerFE.id = beerId;
+                            return beerFE;
+                        }
+                    )
+                );
+                return Promise.all(promises);
+            }))
+            .then(beerList => {
+                res.status(200).json({ beerList });
+            })
+            .catch(e => {
+                res.sendStatus(500);
+                console.log('Error getting documents', e);
+            });
     }
 );
 
 app.post('/leave-beer-rating', (req, res) => {
     const { id, rating } = req.body;
     firestore.runTransaction(t => t.get(firestore.collection('beers').doc(id))
-            .then(beer => {
-                const ratings = beer.data().ratings || [];
-                ratings.push(rating);
-                const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-                return t.update(firestore.collection('beers').doc(id), { ratings, avgRating });
-            })).then(() => {
+        .then(beer => {
+            const ratings = beer.data().ratings || [];
+            ratings.push(rating);
+            const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+            return t.update(firestore.collection('beers').doc(id), { ratings, avgRating });
+        })).then(() => {
         res.sendStatus(200);
     }).catch(e => {
         res.sendStatus(500);
@@ -102,12 +122,12 @@ app.post('/leave-beer-rating', (req, res) => {
 app.post('/leave-bar-rating', (req, res) => {
     const { id, rating } = req.body;
     firestore.runTransaction(t => t.get(firestore.collection('bars').doc(id))
-            .then(bar => {
-                const ratings = bar.data().ratings || [];
-                ratings.push(rating);
-                const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-                return t.update(firestore.collection('bars').doc(id), { ratings, avgRating });
-            })).then(() => {
+        .then(bar => {
+            const ratings = bar.data().ratings || [];
+            ratings.push(rating);
+            const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+            return t.update(firestore.collection('bars').doc(id), { ratings, avgRating });
+        })).then(() => {
         res.sendStatus(200);
     }).catch(e => {
         res.sendStatus(500);
