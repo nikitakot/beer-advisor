@@ -42,7 +42,7 @@ export function postABar({
     });
 }
 
-export function editABar({
+export function updateABar({
                              name, address, lat, lng, phone, beerList, uid, openTimeM,
                              openTimeH, closeTimeM, closeTimeH
                          }) {

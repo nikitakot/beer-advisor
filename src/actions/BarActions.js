@@ -5,8 +5,9 @@ import {
     FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_BAR_LIST, FETCHING_BAR_LIST_FAIL, FETCHING_GEOCODE,
     VALIDATION_ERROR
 } from './types';
-import { editABar, getBarList, getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
+import { getBarList, getGeoCode, getGeoCodeReverse, postABar, updateABar } from '../utlis/requests';
 import { PHONE_REGEX, TIME_REGEX } from '../utlis/constants';
+import { Alert } from 'react-native';
 
 export const beerSelected = id => {
     return {
@@ -79,16 +80,24 @@ export const createABar = (props) => {
     };
 };
 
-export const editeABar = (props) => {
+export const editABar = (props) => {
     const validationResult = validateBarForm(props);
     if (validationResult) {
         return validationResult;
     }
     return (dispatch) => {
         dispatch({ type: ADDING_A_BAR });
-        editABar(props)
+        updateABar(props)
             .then(() => {
                 console.log('EDIT_A_BAR_SUCCESS');
+                Alert.alert(
+                    'Success',
+                    'Bar edition submitted and will be received by administrator soon',
+                    [
+                        { text: 'OK' },
+                    ],
+                    { cancelable: false }
+                );
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {

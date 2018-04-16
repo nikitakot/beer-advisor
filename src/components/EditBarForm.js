@@ -5,10 +5,10 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate, createABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
+import { barUpdate, createABar, editABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
 import { TimePickerInput } from './common/TimePickerInput';
-import { editABar } from '../utlis/requests';
+
 
 
 class EditBarForm extends React.Component {
