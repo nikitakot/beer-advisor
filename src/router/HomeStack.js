@@ -4,6 +4,7 @@ import Bar from '../components/Bar';
 import Beer from '../components/Beer';
 import AttachABeer from '../components/AttachABeer';
 import Rate from '../components/Rate';
+import EditBarForm from '../components/EditBarForm';
 
 export const HomeStack = StackNavigator({
     Home: {
@@ -20,5 +21,8 @@ export const HomeStack = StackNavigator({
     },
     Rate: {
         screen: Rate
+    },
+    EditBarForm: {
+        screen: EditBarForm
     }
 });

@@ -42,6 +42,33 @@ export function postABar({
     });
 }
 
+export function editABar({
+                             name, address, lat, lng, phone, beerList, uid, openTimeM,
+                             openTimeH, closeTimeM, closeTimeH
+                         }) {
+    const data = {
+        name,
+        address,
+        lat,
+        lng,
+        phone,
+        beerList,
+        uid,
+        openTimeM,
+        openTimeH,
+        closeTimeM,
+        closeTimeH
+    };
+
+    return fetch(APP_URL + '/edit-bar', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+}
+
 export function getBarList() {
     return fetch(APP_URL + '/get-bars')
         .then(res => res.json());

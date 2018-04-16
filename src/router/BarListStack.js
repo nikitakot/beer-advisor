@@ -6,6 +6,7 @@ import Bar from '../components/Bar';
 import Beer from '../components/Beer';
 import AttachABeer from '../components/AttachABeer';
 import Rate from '../components/Rate';
+import EditBarForm from '../components/EditBarForm';
 
 export const BarListStack = StackNavigator({
     BarList: {
@@ -28,5 +29,8 @@ export const BarListStack = StackNavigator({
     },
     Rate: {
         screen: Rate
+    },
+    EditBarForm: {
+        screen: EditBarForm
     }
 });

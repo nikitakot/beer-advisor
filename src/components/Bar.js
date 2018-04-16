@@ -113,6 +113,16 @@ class Bar extends Component {
                     >
                         Rate this bar
                     </Button>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('EditBarForm',
+                                {
+                                    bar
+                                });
+                        }}
+                    >
+                        Edit this bar
+                    </Button>
                 </CardSection>
             </View>
             : null;

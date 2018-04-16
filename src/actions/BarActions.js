@@ -5,7 +5,7 @@ import {
     FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_BAR_LIST, FETCHING_BAR_LIST_FAIL, FETCHING_GEOCODE,
     VALIDATION_ERROR
 } from './types';
-import { getBarList, getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
+import { editABar, getBarList, getGeoCode, getGeoCodeReverse, postABar } from '../utlis/requests';
 import { PHONE_REGEX, TIME_REGEX } from '../utlis/constants';
 
 export const beerSelected = id => {
@@ -70,6 +70,25 @@ export const createABar = (props) => {
         postABar(props)
             .then(() => {
                 console.log('ADD_A_BAR_SUCCESS');
+                dispatch({ type: ADD_A_BAR_SUCCESS });
+            })
+            .catch(e => {
+                console.error(e);
+                dispatch({ type: ADD_A_BAR_FAIL });
+            });
+    };
+};
+
+export const editeABar = (props) => {
+    const validationResult = validateBarForm(props);
+    if (validationResult) {
+        return validationResult;
+    }
+    return (dispatch) => {
+        dispatch({ type: ADDING_A_BAR });
+        editABar(props)
+            .then(() => {
+                console.log('EDIT_A_BAR_SUCCESS');
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {
