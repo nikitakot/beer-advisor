@@ -40,6 +40,25 @@ class Beer extends Component {
             : null;
     }
 
+    renderCommentButton() {
+        return this.props.user
+            ?
+            <CardSection>
+                <Button
+                    onPress={() => {
+                        NavigationService.navigate('Comments',
+                            {
+                                // sub: beer,
+                                // onPress: rating => this.leaveARating(rating)
+                            });
+                    }}
+                >
+                    Open Discussion
+                </Button>
+            </CardSection>
+            : null;
+    }
+
     render() {
         const { beer } = this.props.navigation.state.params;
         return (
@@ -57,6 +76,7 @@ class Beer extends Component {
                     </CardSection>
                 </Card>
                 {this.renderRatingButton()}
+                {this.renderCommentButton()}
             </ScrollView>
         );
     }
