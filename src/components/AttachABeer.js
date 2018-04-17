@@ -2,9 +2,10 @@ import React from 'react';
 import { Icon } from 'react-native-elements';
 import { APP_BLUE } from '../utlis/constants';
 import AdjustableBeerList from './AdjustableBeerList';
-import { View } from 'react-native';
-import { Button, CardSection } from './common';
+import { Alert, View } from 'react-native';
+import { Button, CardSection, Spinner } from './common';
 import { updateBarsBeers } from '../utlis/requests';
+import NavigationService from '../utlis/NavigationService';
 
 class AttachABeer extends React.Component {
     static navigationOptions = {
@@ -14,7 +15,8 @@ class AttachABeer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedBeers: []
+            selectedBeers: [],
+            loading: false
         };
     }
 
@@ -44,14 +46,37 @@ class AttachABeer extends React.Component {
 
     updateBeerList() {
         const { bar, getBarsBeers } = this.props.navigation.state.params;
+        this.setState({ loading: true });
         updateBarsBeers(bar.id, this.state.selectedBeers)
             .then(() => {
-                console.log(`Bar ${bar.id} was updated.`);
+                this.setState({ loading: false });
                 getBarsBeers();
+                NavigationService.goBack();
             })
             .catch(e => {
+                this.setState({ loading: false });
+                Alert.alert(
+                    'Fail',
+                    'Server error',
+                    [
+                        { text: 'OK' },
+                    ],
+                    { cancelable: false }
+                );
                 console.error(e);
             });
+    }
+
+    renderSubmitBtn() {
+        return this.state.loading ?
+            <Spinner size="large" /> :
+            <Button
+                onPress={() => {
+                    this.updateBeerList();
+                }}
+            >
+                Save
+            </Button>;
     }
 
     render() {
@@ -62,13 +87,7 @@ class AttachABeer extends React.Component {
                     getIcon={this.getIcon.bind(this)}
                 />
                 <CardSection>
-                    <Button
-                        onPress={() => {
-                            this.updateBeerList();
-                        }}
-                    >
-                        Save
-                    </Button>
+                    {this.renderSubmitBtn()}
                 </CardSection>
             </View>
         );
