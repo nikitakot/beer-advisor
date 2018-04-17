@@ -1,6 +1,6 @@
 import {
-    ADDING_A_BAR, BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED, FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS,
-    FETCHING_GEOCODE, VALIDATION_ERROR
+    ADD_A_BAR_FAIL, ADD_A_BAR_SUCCESS, ADDING_A_BAR, BAR_UPDATE, BEER_SELECTED, BEER_UNSELECTED,
+    FETCH_GEOCODE_FAIL, FETCH_GEOCODE_SUCCESS, FETCHING_GEOCODE, VALIDATION_ERROR
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -38,6 +38,10 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, beerList: state.beerList.filter(id => id !== action.payload) };
         case VALIDATION_ERROR:
             return { ...state, error: action.payload };
+        case ADD_A_BAR_SUCCESS:
+            return INITIAL_STATE;
+        case ADD_A_BAR_FAIL:
+            return { ...state, putLoading: false };
         default:
             return state;
     }

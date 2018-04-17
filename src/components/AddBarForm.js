@@ -44,6 +44,14 @@ class AddBarForm extends React.Component {
             />;
     }
 
+    renderSubmitBtn() {
+        return this.props.putLoading ?
+            <Spinner size="large" /> :
+            <Button onPress={this.submit.bind(this)}>
+                Add
+            </Button>;
+    }
+
     render() {
         const { lat, lng } = this.props;
         return (
@@ -114,9 +122,7 @@ class AddBarForm extends React.Component {
                             <AddBarButton />
                         </CardSection>
                         <CardSection>
-                            <Button onPress={this.submit.bind(this)}>
-                                Add
-                            </Button>
+                            {this.renderSubmitBtn()}
                         </CardSection>
                     </Card>
                 </ScrollView>
@@ -137,7 +143,8 @@ const mapStateToProps = ({ addABar }) => {
         openTimeM,
         openTimeH,
         closeTimeM,
-        closeTimeH
+        closeTimeH,
+        putLoading
     } = addABar;
 
     return {
@@ -152,7 +159,8 @@ const mapStateToProps = ({ addABar }) => {
         openTimeM,
         openTimeH,
         closeTimeM,
-        closeTimeH
+        closeTimeH,
+        putLoading
     };
 };
 

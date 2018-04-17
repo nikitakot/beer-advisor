@@ -8,6 +8,7 @@ import {
 import { getBarList, getGeoCode, getGeoCodeReverse, postABar, updateABar } from '../utlis/requests';
 import { PHONE_REGEX, TIME_REGEX } from '../utlis/constants';
 import { Alert } from 'react-native';
+import NavigationService from '../utlis/NavigationService';
 
 export const beerSelected = id => {
     return {
@@ -70,7 +71,15 @@ export const createABar = (props) => {
         dispatch({ type: ADDING_A_BAR });
         postABar(props)
             .then(() => {
-                console.log('ADD_A_BAR_SUCCESS');
+                Alert.alert(
+                    'Success',
+                    `Bar ${props.name} was added`,
+                    [
+                        { text: 'OK' },
+                    ],
+                    { cancelable: false }
+                );
+                NavigationService.goBack();
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {
@@ -89,15 +98,15 @@ export const editABar = (props) => {
         dispatch({ type: ADDING_A_BAR });
         updateABar(props)
             .then(() => {
-                console.log('EDIT_A_BAR_SUCCESS');
                 Alert.alert(
                     'Success',
-                    'Bar edition submitted and will be received by administrator soon',
+                    'Bar edition submitted and will be received by the administrator soon',
                     [
                         { text: 'OK' },
                     ],
                     { cancelable: false }
                 );
+                NavigationService.goBack();
                 dispatch({ type: ADD_A_BAR_SUCCESS });
             })
             .catch(e => {

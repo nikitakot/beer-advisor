@@ -5,10 +5,9 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate, createABar, editABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
+import { barUpdate, editABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
 import { TimePickerInput } from './common/TimePickerInput';
-
 
 
 class EditBarForm extends React.Component {
@@ -52,6 +51,14 @@ class EditBarForm extends React.Component {
                 onChangeText={value =>
                     this.props.barUpdate({ prop: 'address', value })}
             />;
+    }
+
+    renderSubmitBtn() {
+        return this.props.putLoading ?
+            <Spinner size="large" /> :
+            <Button onPress={this.submit.bind(this)}>
+                Submit
+            </Button>;
     }
 
     render() {
@@ -123,9 +130,7 @@ class EditBarForm extends React.Component {
                             <AddBarButton />
                         </CardSection>
                         <CardSection>
-                            <Button onPress={this.submit.bind(this)}>
-                                Edit
-                            </Button>
+                            {this.renderSubmitBtn()}
                         </CardSection>
                     </Card>
                 </ScrollView>
@@ -142,6 +147,7 @@ const mapStateToProps = ({ addABar }) => {
         lat, lng,
         error,
         addressLoading,
+        putLoading,
         beerList,
         openTimeM,
         openTimeH,
@@ -158,6 +164,7 @@ const mapStateToProps = ({ addABar }) => {
         lng,
         error,
         addressLoading,
+        putLoading,
         beerList,
         openTimeM,
         openTimeH,

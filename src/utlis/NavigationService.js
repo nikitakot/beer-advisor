@@ -17,6 +17,12 @@ function navigate(routeName, params) {
     );
 }
 
+function goBack() {
+    _navigator.dispatch(
+        NavigationActions.back()
+    );
+}
+
 function reset(routeName) {
     if (routeName) {
         _navigator.dispatch(NavigationActions.reset({
@@ -41,5 +47,6 @@ function reset(routeName) {
 export default {
     navigate,
     setTopLevelNavigator,
-    reset
+    reset,
+    goBack
 };
