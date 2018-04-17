@@ -4,7 +4,7 @@ import { Card, CardSection } from './common';
 import { TEXT_STYLE } from '../utlis/constants';
 import { Button } from './common/Button';
 import NavigationService from '../utlis/NavigationService';
-import { leaveABeerRating } from '../utlis/requests';
+import { leaveABeerComment, leaveABeerRating } from '../utlis/requests';
 import MyRating from './MyRating';
 import { connect } from 'react-redux';
 
@@ -18,6 +18,11 @@ class Beer extends Component {
     leaveARating(rating) {
         const { beer } = this.props.navigation.state.params;
         return leaveABeerRating(beer.id, rating);
+    }
+
+    leaveAComment(comment) {
+        const { beer } = this.props.navigation.state.params;
+        return leaveABeerComment(beer.id, comment);
     }
 
     renderRatingButton() {
@@ -41,6 +46,7 @@ class Beer extends Component {
     }
 
     renderCommentButton() {
+        const { beer } = this.props.navigation.state.params;
         return this.props.user
             ?
             <CardSection>
@@ -48,8 +54,8 @@ class Beer extends Component {
                     onPress={() => {
                         NavigationService.navigate('Comments',
                             {
-                                // sub: beer,
-                                // onPress: rating => this.leaveARating(rating)
+                                sub: beer,
+                                onPress: comment => this.leaveAComment(comment)
                             });
                     }}
                 >

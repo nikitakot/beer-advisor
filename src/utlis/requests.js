@@ -43,9 +43,9 @@ export function postABar({
 }
 
 export function updateABar({
-                             name, address, lat, lng, phone, beerList, uid, openTimeM,
-                             openTimeH, closeTimeM, closeTimeH, id
-                         }) {
+                               name, address, lat, lng, phone, beerList, uid, openTimeM,
+                               openTimeH, closeTimeM, closeTimeH, id
+                           }) {
     const data = {
         name,
         address,
@@ -105,6 +105,16 @@ export function leaveABeerRating(id, rating) {
     return fetch(APP_URL + '/leave-beer-rating', {
         method: 'POST',
         body: JSON.stringify({ id, rating }),
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+}
+
+export function leaveABeerComment(id, comment) {
+    return fetch(APP_URL + '/leave-beer-comment', {
+        method: 'POST',
+        body: JSON.stringify({ id, comment }),
         headers: {
             'content-type': 'application/json'
         }
