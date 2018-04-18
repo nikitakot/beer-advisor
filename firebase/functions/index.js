@@ -339,5 +339,23 @@ app.post('/delete-bar-comment', (req, res, next) => validateToken(req, res, next
     }
 );
 
+app.get('/get-beers-bars', (req, res) => {
+    const id = req.query.id;
+    firestore.collection('bars').where(`beerList.${id}`, '==', true).get()
+        .then(snapshot => {
+            const barList = snapshot.docs.map(doc => {
+                const bar = doc.data();
+                bar.id = doc.id;
+                bar.beerList = Object.keys(bar.beerList);
+                return bar;
+            });
+            res.status(200).json({ barList });
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
 
 exports.app = functions.https.onRequest(app);
