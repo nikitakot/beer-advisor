@@ -76,6 +76,11 @@ export function getBarList() {
         .then(res => res.json());
 }
 
+export function getBeerList() {
+    return fetch(APP_URL + '/get-beers')
+        .then(res => res.json());
+}
+
 export function getBarsBeers(id) {
     return fetch(APP_URL + '/get-bars-beers'
         + '?id=' + id)
