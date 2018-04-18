@@ -42,7 +42,8 @@ class Comments extends Component {
                 //     });
                 this.setState({ loading: false });
             })
-            .catch(() => {
+            .catch(e => {
+                console.log(e);
                 this.setState({ loading: false, error: 'Error while adding comment' });
             });
     }

@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template */
 
 import { APP_URL, GEOCODE_API_KEY } from './constants';
+import { auth } from '../config/firebase';
 
 export function getGeoCode(address) {
     return fetch('https://maps.googleapis.com/maps/api/geocode/json' +
@@ -112,12 +113,18 @@ export function leaveABeerRating(id, rating) {
 }
 
 export function leaveABeerComment(id, comment) {
-    return fetch(APP_URL + '/leave-beer-comment', {
-        method: 'POST',
-        body: JSON.stringify({ id, comment }),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/leave-beer-comment',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ id, comment }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 

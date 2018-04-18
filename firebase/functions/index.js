@@ -5,6 +5,7 @@ const cors = require('cors')({ origin: true });
 const cookieParser = require('cookie-parser')();
 const bodyParser = require('body-parser');
 const arrayToObject = require('./utils/arrayToObject');
+const validateToken = require('./utils/validateFirebaseIdToken');
 
 const app = express();
 
@@ -111,12 +112,14 @@ app.post('/leave-beer-rating', (req, res) => {
             ratings.push(rating);
             const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
             return t.update(firestore.collection('beers').doc(id), { ratings, avgRating });
-        })).then(() => {
-        res.sendStatus(200);
-    }).catch(e => {
-        res.sendStatus(500);
-        console.log('Error getting documents', e);
-    });
+        }))
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            res.sendStatus(500);
+            console.log('Error getting documents', e);
+        });
 });
 
 app.post('/leave-bar-rating', (req, res) => {
@@ -191,6 +194,27 @@ app.post('/delete-beer', (req, res) => {
             res.sendStatus(500);
         });
 });
+
+app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+        const { id, comment } = req.body;
+        firestore.runTransaction(t =>
+            t.get(firestore.collection('beers').doc(id))
+                .then(beer => {
+                    const comments = beer.data().comments || {};
+                    const newCommentId = firestore.collection('beers').doc().id;
+                    comments[newCommentId] = { uid: req.user.uid, email: req.user.email, comment };
+                    return t.update(firestore.collection('beers').doc(id), { comments });
+                }))
+            .then(() => {
+                console.log(`Comment to bar ${id} was created`);
+                res.sendStatus(200);
+            })
+            .catch(e => {
+                console.log('Error: ', e);
+                res.sendStatus(500);
+            });
+    }
+);
 
 
 exports.app = functions.https.onRequest(app);
