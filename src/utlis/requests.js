@@ -155,3 +155,41 @@ export function deleteABeerComment(beerId, commentId) {
         );
 }
 
+export function getBarComments(id) {
+    return fetch(APP_URL + '/get-bar-comments'
+        + '?id=' + id)
+        .then(res => res.json());
+}
+
+export function leaveABarComment(id, comment) {
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/leave-bar-comment',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ id, comment }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
+}
+
+export function deleteABarComment(barId, commentId) {
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/delete-bar-comment',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ barId, commentId }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
+}
+

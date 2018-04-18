@@ -233,7 +233,7 @@ app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next
                     return t.update(firestore.collection('beers').doc(id), { comments });
                 }))
             .then(() => {
-                console.log(`Comment to bar ${id} was created`);
+                console.log(`Comment to beer ${id} was created`);
                 res.sendStatus(200);
             })
             .catch(e => {
@@ -255,6 +255,78 @@ app.post('/delete-beer-comment', (req, res, next) => validateToken(req, res, nex
                     }
                     delete comments[commentId];
                     return t.update(firestore.collection('beers').doc(beerId), { comments });
+                }))
+            .then(() => {
+                console.log(`Comment ${commentId} was deleted`);
+                res.sendStatus(200);
+            })
+            .catch(e => {
+                console.log('Error: ', e);
+                res.sendStatus(500);
+            });
+    }
+);
+
+app.get('/get-bar-comments', (req, res) => {
+    const id = req.query.id;
+    firestore.collection('bars').doc(id).get()
+        .then(bar => {
+            const commentsObj = bar.data().comments;
+            let commentsArr = [];
+            if (commentsObj) {
+                commentsArr = Object.keys(commentsObj).map(commentId => {
+                    const comment = commentsObj[commentId];
+                    comment.id = commentId;
+                    return comment;
+                });
+                commentsArr.sort((x, y) => y.time - x.time);
+            }
+            res.status(200).json({ comments: commentsArr });
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
+app.post('/leave-bar-comment', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+        const { id, comment } = req.body;
+        firestore.runTransaction(t =>
+            t.get(firestore.collection('bars').doc(id))
+                .then(bar => {
+                    const comments = bar.data().comments || {};
+                    const newCommentId = firestore.collection('bars').doc().id;
+                    comments[newCommentId] = {
+                        uid: req.user.uid,
+                        email: req.user.email,
+                        comment,
+                        time: admin.firestore.FieldValue.serverTimestamp()
+                    };
+                    return t.update(firestore.collection('bars').doc(id), { comments });
+                }))
+            .then(() => {
+                console.log(`Comment to bar ${id} was created`);
+                res.sendStatus(200);
+            })
+            .catch(e => {
+                console.log('Error: ', e);
+                res.sendStatus(500);
+            });
+    }
+);
+
+app.post('/delete-bar-comment', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+        const { barId, commentId } = req.body;
+        firestore.runTransaction(t =>
+            t.get(firestore.collection('bars').doc(barId))
+                .then(bar => {
+                    const comments = bar.data().comments || {};
+                    const commentToDelete = comments[commentId];
+                    if (commentToDelete.uid !== req.user.uid) {
+                        return Promise.reject('Can\'t delete this comment, uid is not corresponds');
+                    }
+                    delete comments[commentId];
+                    return t.update(firestore.collection('bars').doc(barId), { comments });
                 }))
             .then(() => {
                 console.log(`Comment ${commentId} was deleted`);

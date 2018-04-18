@@ -4,7 +4,11 @@ import { ScrollView, Text, View } from 'react-native';
 import { Button, Card, CardSection } from './common';
 import { MapView } from 'expo';
 import Map from './Map';
-import { getBarsBeers, leaveABarRating } from '../utlis/requests';
+import {
+    deleteABarComment,
+    deleteABeerComment, getBarComments, getBarsBeers, getBeerComments, leaveABarComment, leaveABarRating,
+    leaveABeerComment, leaveABeerRating
+} from '../utlis/requests';
 import RatingItem from './RatingItem';
 import NavigationService from '../utlis/NavigationService';
 import { Icon } from 'react-native-elements';
@@ -38,6 +42,21 @@ class Bar extends Component {
 
     getIcon() {
         return <Icon name="navigate-next" size={35} color={APP_BLUE}/>;
+    }
+
+    getComments() {
+        const { bar } = this.props.navigation.state.params;
+        return getBarComments(bar.id);
+    }
+
+    leaveAComment(comment) {
+        const { bar } = this.props.navigation.state.params;
+        return leaveABarComment(bar.id, comment);
+    }
+
+    deleteComment(id) {
+        const { bar } = this.props.navigation.state.params;
+        return deleteABarComment(bar.id, id);
     }
 
     leaveARating(rating) {
@@ -122,6 +141,21 @@ class Bar extends Component {
                         }}
                     >
                         Edit this bar
+                    </Button>
+                </CardSection>
+                <CardSection>
+                    <Button
+                        onPress={() => {
+                            NavigationService.navigate('Comments',
+                                {
+                                    sub: bar,
+                                    onPress: comment => this.leaveAComment(comment),
+                                    getComments: () => this.getComments(),
+                                    deleteComment: id => this.deleteComment(id)
+                                });
+                        }}
+                    >
+                        Open Discussion
                     </Button>
                 </CardSection>
             </View>
