@@ -116,6 +116,10 @@ export const editABar = (props) => {
     };
 };
 
+export const resetBarForm = () => {
+    return { type: ADD_A_BAR_SUCCESS };
+};
+
 export const fetchBarsList = () => {
     return (dispatch) => {
         dispatch({ type: FETCHING_BAR_LIST });

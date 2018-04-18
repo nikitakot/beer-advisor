@@ -5,7 +5,7 @@ import { Button, Card, CardSection, Input, Spinner } from './common';
 import Map from './Map';
 import AddBarButton from './AddBarButton';
 import { connect } from 'react-redux';
-import { barUpdate, editABar, fetchAddress, fetchCurrentAddress } from '../actions/BarActions';
+import { barUpdate, editABar, fetchAddress, fetchCurrentAddress, resetBarForm } from '../actions/BarActions';
 import { ERROR_TEXT_STYLE } from '../utlis/constants';
 import { TimePickerInput } from './common/TimePickerInput';
 
@@ -18,6 +18,16 @@ class EditBarForm extends React.Component {
             title: `Edit ${params.bar.name}`
         };
     };
+
+    componentWillMount() {
+        const didBlurSubscription = this.props.navigation.addListener(
+            'didBlur',
+            () => {
+                this.props.resetBarForm();
+                didBlurSubscription.remove();
+            }
+        );
+    }
 
     componentDidMount() {
         const { bar } = this.props.navigation.state.params;
@@ -175,5 +185,5 @@ const mapStateToProps = ({ addABar }) => {
 };
 
 export default connect(mapStateToProps,
-    { barUpdate, fetchAddress, fetchCurrentAddress, editABar })(EditBarForm);
+    { barUpdate, fetchAddress, fetchCurrentAddress, editABar, resetBarForm })(EditBarForm);
 
