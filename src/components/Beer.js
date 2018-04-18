@@ -93,9 +93,18 @@ class Beer extends Component {
                     <CardSection>
                         <Text style={TEXT_STYLE}>{beer.description}</Text>
                     </CardSection>
+                    <CardSection>
+                        <Button
+                            onPress={() => {
+                                NavigationService.navigate('BeersBarsList', { beer });
+                            }}
+                        >
+                            Bars list
+                        </Button>
+                    </CardSection>
+                    {this.renderRatingButton()}
+                    {this.renderCommentButton()}
                 </Card>
-                {this.renderRatingButton()}
-                {this.renderCommentButton()}
             </ScrollView>
         );
     }

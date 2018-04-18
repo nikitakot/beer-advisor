@@ -193,3 +193,8 @@ export function deleteABarComment(barId, commentId) {
         );
 }
 
+export function getBeersBars(id) {
+    return fetch(APP_URL + '/get-beers-bars'
+        + '?id=' + id)
+        .then(res => res.json());
+}
