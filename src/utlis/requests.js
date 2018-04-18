@@ -139,3 +139,19 @@ export function leaveABeerComment(id, comment) {
         );
 }
 
+export function deleteABeerComment(beerId, commentId) {
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/delete-beer-comment',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ beerId, commentId }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
+}
+

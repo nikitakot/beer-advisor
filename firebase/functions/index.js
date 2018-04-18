@@ -243,5 +243,29 @@ app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next
     }
 );
 
+app.post('/delete-beer-comment', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+        const { beerId, commentId } = req.body;
+        firestore.runTransaction(t =>
+            t.get(firestore.collection('beers').doc(beerId))
+                .then(beer => {
+                    const comments = beer.data().comments || {};
+                    const commentToDelete = comments[commentId];
+                    if (commentToDelete.uid !== req.user.uid) {
+                        return Promise.reject('Can\'t delete this comment, uid is not corresponds');
+                    }
+                    delete comments[commentId];
+                    return t.update(firestore.collection('beers').doc(beerId), { comments });
+                }))
+            .then(() => {
+                console.log(`Comment ${commentId} was deleted`);
+                res.sendStatus(200);
+            })
+            .catch(e => {
+                console.log('Error: ', e);
+                res.sendStatus(500);
+            });
+    }
+);
+
 
 exports.app = functions.https.onRequest(app);

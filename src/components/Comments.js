@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView, ScrollView, Text } from 'react-native';
+import { Alert, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
 import { Button, Card, CardSection, Spinner, TextArea } from './common';
 import { APP_BLUE, ERROR_TEXT_STYLE, HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
+import { connect } from 'react-redux';
 
 
 class Comments extends Component {
@@ -43,6 +44,34 @@ class Comments extends Component {
             });
     }
 
+    deleteComment(id) {
+        Alert.alert(
+            'Confirm',
+            'Delete this comment?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        const { deleteComment } = this.props.navigation.state.params;
+                        this.setState({ loading: true });
+                        deleteComment(id)
+                            .then(() => {
+                                this.refreshComments();
+                                this.setState({ loading: false });
+                            })
+                            .catch(e => {
+                                console.log(e);
+                                this.setState(
+                                    { loading: false, error: 'Error while deleting comment' });
+                            });
+                    }
+                },
+            ],
+            { cancelable: false }
+        );
+    }
+
     refreshComments() {
         const { getComments } = this.props.navigation.state.params;
         this.setState({ loading: true });
@@ -80,6 +109,14 @@ class Comments extends Component {
                 <CardSection>
                     <Text style={TEXT_STYLE}>{comment.comment}</Text>
                 </CardSection>
+                {this.props.user.uid === comment.uid ?
+                    <CardSection>
+                        <Button onPress={this.deleteComment.bind(this, comment.id)}>
+                            Delete this comment
+                        </Button>
+                    </CardSection>
+                    : null
+                }
             </Card>
         );
     }
@@ -102,7 +139,11 @@ class Comments extends Component {
                             placeholder={'Enter your comment here'}
                         />
                         </CardSection>
-                        <Text style={ERROR_TEXT_STYLE}>{this.state.error}</Text>
+                        {this.state.error ?
+                            <Text style={ERROR_TEXT_STYLE}>
+                                {this.state.error}
+                            </Text>
+                            : null}
                         <CardSection>
                             {this.renderButton()}
                         </CardSection>
@@ -114,4 +155,9 @@ class Comments extends Component {
     }
 }
 
-export default Comments;
+const mapStateToProps = ({ auth }) => {
+    const { user } = auth;
+    return { user };
+};
+
+export default connect(mapStateToProps, null)(Comments);
