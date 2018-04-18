@@ -112,6 +112,12 @@ export function leaveABeerRating(id, rating) {
     });
 }
 
+export function getBeerComments(id) {
+    return fetch(APP_URL + '/get-beer-comments'
+        + '?id=' + id)
+        .then(res => res.json());
+}
+
 export function leaveABeerComment(id, comment) {
     return auth.currentUser.getIdToken(true)
         .then(token =>

@@ -195,6 +195,28 @@ app.post('/delete-beer', (req, res) => {
         });
 });
 
+app.get('/get-beer-comments', (req, res) => {
+    const id = req.query.id;
+    firestore.collection('beers').doc(id).get()
+        .then(beer => {
+            const commentsObj = beer.data().comments;
+            let commentsArr = [];
+            if (commentsObj) {
+                commentsArr = Object.keys(commentsObj).map(commentId => {
+                    const comment = commentsObj[commentId];
+                    comment.id = commentId;
+                    return comment;
+                });
+                commentsArr.sort((x, y) => y.time - x.time);
+            }
+            res.status(200).json({ comments: commentsArr });
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
 app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
         const { id, comment } = req.body;
         firestore.runTransaction(t =>
@@ -202,7 +224,12 @@ app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next
                 .then(beer => {
                     const comments = beer.data().comments || {};
                     const newCommentId = firestore.collection('beers').doc().id;
-                    comments[newCommentId] = { uid: req.user.uid, email: req.user.email, comment };
+                    comments[newCommentId] = {
+                        uid: req.user.uid,
+                        email: req.user.email,
+                        comment,
+                        time: admin.firestore.FieldValue.serverTimestamp()
+                    };
                     return t.update(firestore.collection('beers').doc(id), { comments });
                 }))
             .then(() => {

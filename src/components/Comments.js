@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, ScrollView, Text } from 'react-native';
 import { Button, Card, CardSection, Spinner, TextArea } from './common';
 import { APP_BLUE, ERROR_TEXT_STYLE, HEADER_STYLE, TEXT_STYLE } from '../utlis/constants';
 
+
 class Comments extends Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -20,7 +21,7 @@ class Comments extends Component {
     }
 
     componentWillMount() {
-        // this.props.getComments();
+        this.refreshComments();
     }
 
     onPress() {
@@ -33,18 +34,25 @@ class Comments extends Component {
         this.setState({ loading: true });
         onPress(comment)
             .then(() => {
-                // this.props.getComments()
-                //     .then(comments => {
-                //
-                //     })
-                //     .catch(e => {
-                //         console.log(e);
-                //     });
-                this.setState({ loading: false });
+                this.refreshComments();
+                this.setState({ loading: false, comment: '' });
             })
             .catch(e => {
                 console.log(e);
                 this.setState({ loading: false, error: 'Error while adding comment' });
+            });
+    }
+
+    refreshComments() {
+        const { getComments } = this.props.navigation.state.params;
+        this.setState({ loading: true });
+        getComments()
+            .then(({ comments }) => {
+                this.setState({ loading: false, comments });
+            })
+            .catch(e => {
+                console.log(e);
+                this.setState({ loading: false, error: 'Error loading the comments' });
             });
     }
 
@@ -62,15 +70,15 @@ class Comments extends Component {
 
     renderComments() {
         return this.state.comments.map(comment =>
-            <Card>
+            <Card key={comment.id}>
                 <CardSection>
                     <Text style={TEXT_STYLE}>
                         <Text style={{ color: APP_BLUE }}>{comment.email}</Text>
-                        {' '}{comment.time}
+                        {' '}{new Date(comment.time).toLocaleString()}
                     </Text>
                 </CardSection>
                 <CardSection>
-                    <Text style={TEXT_STYLE}>{comment.text}</Text>
+                    <Text style={TEXT_STYLE}>{comment.comment}</Text>
                 </CardSection>
             </Card>
         );
