@@ -19,10 +19,9 @@ class NotAuthorisedProfile extends Component {
     facebookLogin() {
         this.setState({ loading: true, error: '' });
         loginFaceBook()
-            .then(resp => {
+            .then(user => {
                 this.setState({ loading: false });
-                const user = { ...resp.providerData[0], uid: resp.uid };
-                console.log(`Logged in as ${user.name}`);
+                console.log(`Logged in as ${user.displayName}`);
                 this.props.initUserToStore(user);
             })
             .catch(e => {

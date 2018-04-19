@@ -16,7 +16,7 @@ class Home extends React.Component {
         initializeUser()
             .then(user => {
                 if (user) {
-                    console.log(`Logged In as ${user.name || user.email}`);
+                    console.log(`Logged In as ${user.displayName || user.email}`);
                     this.props.initUserToStore(user);
                 }
             })
