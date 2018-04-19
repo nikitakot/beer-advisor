@@ -226,7 +226,7 @@ app.post('/leave-beer-comment', (req, res, next) => validateToken(req, res, next
                     const newCommentId = firestore.collection('beers').doc().id;
                     comments[newCommentId] = {
                         uid: req.user.uid,
-                        email: req.user.email,
+                        email: req.user.name || req.user.email,
                         comment,
                         time: admin.firestore.FieldValue.serverTimestamp()
                     };
@@ -298,7 +298,7 @@ app.post('/leave-bar-comment', (req, res, next) => validateToken(req, res, next,
                     const newCommentId = firestore.collection('bars').doc().id;
                     comments[newCommentId] = {
                         uid: req.user.uid,
-                        email: req.user.email,
+                        email: req.user.name || req.user.email,
                         comment,
                         time: admin.firestore.FieldValue.serverTimestamp()
                     };

@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
+import { Facebook } from 'expo';
 
 const config = {
     apiKey: 'AIzaSyCQjAHCdWFL3E07UvvE5Ve4CNAZkVGJYNY',
@@ -24,4 +25,15 @@ export const initializeUser = () => new Promise((resolve, reject) => {
         }
     }, err => reject(err));
 });
+export const loginFaceBook = () => {
+    return Facebook.logInWithReadPermissionsAsync('139880516857537',
+        { permissions: ['public_profile', 'email'] })
+        .then(({ type, token }) => {
+            if (type === 'success') {
+                const credential = firebase.auth.FacebookAuthProvider.credential(token);
+                return firebase.auth().signInWithCredential(credential);
+            }
+            return Promise.reject(`Error facebook login type ${type}`);
+        });
+};
 

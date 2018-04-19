@@ -13,6 +13,11 @@ class Profile extends React.Component {
         title: 'Profile'
     };
 
+    getImageSource() {
+        const { user } = this.props;
+        return user && user.photoURL ? { uri: user.photoURL } : logo;
+    }
+
     render() {
         return (
             <ScrollView>
@@ -20,7 +25,7 @@ class Profile extends React.Component {
                     <CardSection>
                         <Image
                             style={styles.imageStyle}
-                            source={logo}
+                            source={this.getImageSource()}
                         />
                     </CardSection>
                     {this.props.user ? <AuthorisedProfile user={this.props.user} /> :

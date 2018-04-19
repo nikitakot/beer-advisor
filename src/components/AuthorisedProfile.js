@@ -29,13 +29,15 @@ class AuthorisedProfile extends Component {
     }
 
     render() {
+        const { displayName, email } = this.props.user;
+
         return (
             <View>
                 <CardSection>
                     <Text style={TEXT_STYLE}>
                         Logged in as{' '}
                         <Text style={{ color: APP_BLUE }}>
-                            {this.props.user.email}
+                            {displayName || email}
                         </Text>
                     </Text>
                 </CardSection>

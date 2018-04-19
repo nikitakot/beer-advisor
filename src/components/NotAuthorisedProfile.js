@@ -1,8 +1,36 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Button, CardSection, FbButton } from './common';
+import { Text, View } from 'react-native';
+import { Button, CardSection, FbButton, Spinner } from './common';
+import { loginFaceBook } from '../config/firebase';
+import { connect } from 'react-redux';
+import { initUserToStore } from '../actions/AuthActions';
+import { ERROR_TEXT_STYLE } from '../utlis/constants';
 
 class NotAuthorisedProfile extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            error: ''
+        };
+    }
+
+    facebookLogin() {
+        this.setState({ loading: true, error: '' });
+        loginFaceBook()
+            .then(resp => {
+                this.setState({ loading: false });
+                const user = { ...resp.providerData[0], uid: resp.uid };
+                console.log(`Logged in as ${user.name}`);
+                this.props.initUserToStore(user);
+            })
+            .catch(e => {
+                console.log(e);
+                this.setState({ loading: false, error: 'Error Facebook login' });
+            });
+    }
+
     render() {
         return (
             <View>
@@ -20,12 +48,24 @@ class NotAuthorisedProfile extends Component {
                         }}
                     >SignUp</Button>
                 </CardSection>
+                {this.state.error
+                    ?
+                    <Text style={ERROR_TEXT_STYLE}>{this.state.error}</Text>
+                    :
+                    null}
                 <CardSection>
-                    <FbButton>Facebook</FbButton>
+                    {this.state.loading
+                        ?
+                        <Spinner size="large" />
+                        :
+                        <FbButton onPress={() => this.facebookLogin()}>
+                            Facebook
+                        </FbButton>
+                    }
                 </CardSection>
             </View>
         );
     }
 }
 
-export default NotAuthorisedProfile;
+export default connect(null, { initUserToStore })(NotAuthorisedProfile);
