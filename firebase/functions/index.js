@@ -392,4 +392,17 @@ app.post('/apply-bar-changes', (req, res) => {
         });
 });
 
+app.post('/delete-bar', (req, res) => {
+    const barId = req.body.barId;
+    firestore.collection('bars').doc(barId).delete()
+        .then(ref => {
+            console.log(`Bar with id ${ref.id} was deleted.`);
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            console.log('Error: ', e);
+            res.sendStatus(500);
+        });
+});
+
 exports.app = functions.https.onRequest(app);
