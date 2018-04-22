@@ -1,7 +1,8 @@
 {
-  "admins": {
-    "admin_id": "boolean",
-    "...": "..."
+  "roles": {
+    "admins": {
+      "admin_id": "boolean"
+    }
   },
   "bars": {
     "bar_id": {
