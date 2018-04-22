@@ -357,5 +357,39 @@ app.get('/get-beers-bars', (req, res) => {
         });
 });
 
+app.post('/apply-bar-changes', (req, res) => {
+    const barIdToChange = req.body.barId;
+    const changesIdToApply = req.body.changesId;
+    firestore.runTransaction(t => t.get(firestore.collection('bars').doc(barIdToChange))
+        .then(bar => {
+            const {
+                address,
+                beerList, closeTimeH, closeTimeM,
+                lat, lng, name, openTimeH, openTimeM, phone
+            } = bar.data().changes[changesIdToApply];
+            const changes = {};
+            return t.update(firestore.collection('bars').doc(barIdToChange), {
+                address,
+                beerList,
+                closeTimeH,
+                closeTimeM,
+                lat,
+                lng,
+                name,
+                openTimeH,
+                openTimeM,
+                phone,
+                changes
+            });
+        }))
+        .then(() => {
+            console.log(`Successfully changed the bar ${barIdToChange}`);
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            console.log('Error applying bar changes', e);
+            res.sendStatus(500);
+        });
+});
 
 exports.app = functions.https.onRequest(app);
