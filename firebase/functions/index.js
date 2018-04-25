@@ -405,4 +405,42 @@ app.post('/delete-bar', (req, res) => {
         });
 });
 
+app.post('/add-beer', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+    const userId = req.user.uid;
+    const beer = req.body;
+    firestore.runTransaction(t =>
+        t.get(firestore.collection('roles').doc('admins'))
+            .then(snapshot => {
+                const admins = snapshot.data();
+                const isAdmin = admins[userId];
+                if (isAdmin) {
+                    return t.update(
+                        firestore.collection('beers').add(beer));
+                }
+                return Promise.reject({ responseStatus: 403 });
+            }))
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch(e => {
+            console.log('Failed to get admin', e);
+            res.sendStatus(e.responseStatus || 500);
+        });
+});
+
+
+app.post('/get-admin', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+    const userId = req.user.uid;
+    firestore.collection('roles').doc('admins').get()
+        .then(snapshot => {
+            const admins = snapshot.data();
+            const isAdmin = admins[userId];
+            res.status(200).json({ isAdmin });
+        })
+        .catch(e => {
+            console.log('Failed to get admin', e);
+            res.sendStatus(500);
+        });
+});
+
 exports.app = functions.https.onRequest(app);
