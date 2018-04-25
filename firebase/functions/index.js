@@ -138,16 +138,26 @@ app.post('/leave-bar-rating', (req, res) => {
     });
 });
 
-app.post('/add-beer', (req, res) => {
+app.post('/add-beer', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
+    const userId = req.user.uid;
     const beer = req.body;
-    firestore.collection('beers').add(beer)
-        .then(ref => {
-            console.log(`Beer with id ${ref.id} was added.`);
+    firestore.runTransaction(t =>
+        t.get(firestore.collection('roles').doc('admins'))
+            .then(snapshot => {
+                const admins = snapshot.data();
+                const isAdmin = admins[userId];
+                if (isAdmin) {
+                    return t.update(
+                        firestore.collection('beers').add(beer));
+                }
+                return Promise.reject({ responseStatus: 403 });
+            }))
+        .then(() => {
             res.sendStatus(200);
         })
         .catch(e => {
-            console.log('Error: ', e);
-            res.sendStatus(500);
+            console.log('Failed to get admin', e);
+            res.sendStatus(e.responseStatus || 500);
         });
 });
 
@@ -404,30 +414,6 @@ app.post('/delete-bar', (req, res) => {
             res.sendStatus(500);
         });
 });
-
-app.post('/add-beer', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
-    const userId = req.user.uid;
-    const beer = req.body;
-    firestore.runTransaction(t =>
-        t.get(firestore.collection('roles').doc('admins'))
-            .then(snapshot => {
-                const admins = snapshot.data();
-                const isAdmin = admins[userId];
-                if (isAdmin) {
-                    return t.update(
-                        firestore.collection('beers').add(beer));
-                }
-                return Promise.reject({ responseStatus: 403 });
-            }))
-        .then(() => {
-            res.sendStatus(200);
-        })
-        .catch(e => {
-            console.log('Failed to get admin', e);
-            res.sendStatus(e.responseStatus || 500);
-        });
-});
-
 
 app.post('/get-admin', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const userId = req.user.uid;
