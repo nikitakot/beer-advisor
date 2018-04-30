@@ -16,7 +16,7 @@ app.use(cors);
 app.use(cookieParser);
 app.use(bodyParser.json());
 
-app.post('/add-bar', (req, res) => {
+app.post('/add-bar', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const bar = req.body;
     bar.beerList = arrayToObject(bar.beerList);
     firestore.collection('bars').add(bar)
@@ -30,7 +30,7 @@ app.post('/add-bar', (req, res) => {
         });
 });
 
-app.post('/edit-bar', (req, res) => {
+app.post('/edit-bar', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const barChange = req.body;
     barChange.beerList = arrayToObject(barChange.beerList);
     firestore.runTransaction(t => t.get(firestore.collection('bars').doc(barChange.id))
@@ -48,7 +48,7 @@ app.post('/edit-bar', (req, res) => {
         });
 });
 
-app.post('/update-beer-list', (req, res) => {
+app.post('/update-beer-list', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const { id, beerList } = req.body;
     const newBeerList = arrayToObject(beerList);
     firestore.collection('bars').doc(id).update({ beerList: newBeerList })
@@ -104,7 +104,7 @@ app.get('/get-bars-beers', (req, res) => {
     }
 );
 
-app.post('/leave-beer-rating', (req, res) => {
+app.post('/leave-beer-rating', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const { id, rating } = req.body;
     firestore.runTransaction(t => t.get(firestore.collection('beers').doc(id))
         .then(beer => {
@@ -122,7 +122,7 @@ app.post('/leave-beer-rating', (req, res) => {
         });
 });
 
-app.post('/leave-bar-rating', (req, res) => {
+app.post('/leave-bar-rating', (req, res, next) => validateToken(req, res, next, admin), (req, res) => {
     const { id, rating } = req.body;
     firestore.runTransaction(t => t.get(firestore.collection('bars').doc(id))
         .then(bar => {

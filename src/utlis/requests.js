@@ -34,13 +34,18 @@ export function postABar({
         closeTimeM,
         closeTimeH
     };
-    return fetch(APP_URL + '/add-bar', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/add-bar', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 
 export function updateABar({
@@ -62,13 +67,18 @@ export function updateABar({
         id
     };
 
-    return fetch(APP_URL + '/edit-bar', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/edit-bar', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 
 export function getBarList() {
@@ -88,33 +98,48 @@ export function getBarsBeers(id) {
 }
 
 export function updateBarsBeers(id, beerList) {
-    return fetch(APP_URL + '/update-beer-list', {
-        method: 'POST',
-        body: JSON.stringify({ id, beerList }),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/update-beer-list', {
+                    method: 'POST',
+                    body: JSON.stringify({ id, beerList }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 
 export function leaveABarRating(id, rating) {
-    return fetch(APP_URL + '/leave-bar-rating', {
-        method: 'POST',
-        body: JSON.stringify({ id, rating }),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/leave-bar-rating', {
+                    method: 'POST',
+                    body: JSON.stringify({ id, rating }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 
 export function leaveABeerRating(id, rating) {
-    return fetch(APP_URL + '/leave-beer-rating', {
-        method: 'POST',
-        body: JSON.stringify({ id, rating }),
-        headers: {
-            'content-type': 'application/json'
-        }
-    });
+    return auth.currentUser.getIdToken(true)
+        .then(token =>
+            fetch(APP_URL + '/leave-beer-rating', {
+                    method: 'POST',
+                    body: JSON.stringify({ id, rating }),
+                    headers: {
+                        'content-type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+        );
 }
 
 export function getBeerComments(id) {
