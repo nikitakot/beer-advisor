@@ -147,8 +147,8 @@ app.post('/add-beer', (req, res, next) => validateToken(req, res, next, admin), 
                 const admins = snapshot.data();
                 const isAdmin = admins[userId];
                 if (isAdmin) {
-                    return t.update(
-                        firestore.collection('beers').add(beer));
+                    const newBeerRef = firestore.collection('beers').doc();
+                    return t.set(newBeerRef, beer);
                 }
                 return Promise.reject({ responseStatus: 403 });
             }))
