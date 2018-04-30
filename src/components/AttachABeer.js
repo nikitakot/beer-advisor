@@ -81,7 +81,7 @@ class AttachABeer extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <AdjustableBeerList
                     onPress={this.onPress.bind(this)}
                     getIcon={this.getIcon.bind(this)}
