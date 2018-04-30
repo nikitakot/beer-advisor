@@ -58,6 +58,9 @@ export const fetchCurrentAddress = () => {
                     console.log(e);
                     dispatch({ type: FETCH_GEOCODE_FAIL });
                 });
+        }).catch(e => {
+            console.log(e);
+            dispatch({ type: FETCH_GEOCODE_FAIL });
         });
     };
 };
