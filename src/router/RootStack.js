@@ -1,5 +1,6 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
+import { Platform, StatusBar } from 'react-native';
 import React from 'react';
 import { HomeStack } from './HomeStack';
 import { ProfileStack } from './ProfileStack';
@@ -50,7 +51,10 @@ const RootStack = StackNavigator(
     },
     {
         mode: 'modal',
-        headerMode: 'none'
+        headerMode: 'none',
+        cardStyle: {
+            paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+        }
     }
 );
 
