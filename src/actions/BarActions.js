@@ -48,7 +48,7 @@ export const fetchAddress = address => {
 export const fetchCurrentAddress = () => {
     return (dispatch) => {
         dispatch({ type: FETCHING_GEOCODE });
-        Location.getCurrentPositionAsync().then(({ coords }) => {
+        Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then(({ coords }) => {
             const { latitude: lat, longitude: lng } = coords;
             getGeoCodeReverse(lat, lng)
                 .then(res => {

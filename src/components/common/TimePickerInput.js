@@ -8,6 +8,7 @@ const TimePickerInput = ({ label, minuteValue, hourValue, keyboardType, onHourCh
         <View style={containerStyle}>
             <Text style={labelStyle}>{label}</Text>
             <TextInput
+                underlineColorAndroid='transparent'
                 keyboardType={keyboardType || 'numeric'}
                 maxLength={2}
                 placeholder={'HH'}
@@ -18,6 +19,7 @@ const TimePickerInput = ({ label, minuteValue, hourValue, keyboardType, onHourCh
             />
             <Text style={{ fontSize: 18 }}>:</Text>
             <TextInput
+                underlineColorAndroid='transparent'
                 keyboardType={keyboardType || 'numeric'}
                 maxLength={2}
                 placeholder={'MM'}

@@ -15,8 +15,6 @@ export default class Map extends React.Component {
                 this.setState({ focusUser: false });
             }, 5000);
         }
-        const { lat, lng } = this.props;
-        this.fitToCoordinates(lat, lng);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,9 +42,20 @@ export default class Map extends React.Component {
             <MapView
                 minZoomLevel={8}
                 maxZoomLevel={20}
+                initialRegion={{
+                    latitude: 50.08804,
+                    longitude: 14.42076,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
                 style={style}
+                onLayout={() => {
+                    const { lat, lng } = this.props;
+                    this.fitToCoordinates(lat, lng);
+                }}
                 followsUserLocation={this.state.focusUser}
                 showsUserLocation
+                showsMyLocationButton
                 ref={(ref) => {
                     this.mapRef = ref;
                 }}

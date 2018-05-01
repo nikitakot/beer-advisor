@@ -7,6 +7,7 @@ const TextArea = ({ placeholder, value, onChangeText }) => {
     return (
         <View style={containerStyle}>
             <TextInput
+                underlineColorAndroid='transparent'
                 multiline
                 placeholder={placeholder}
                 value={value}

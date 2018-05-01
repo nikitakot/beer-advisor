@@ -8,6 +8,7 @@ const Input = ({ label, onBlur, value, onChangeText, placeholder, secureTextEntr
         <View style={containerStyle}>
             <Text style={labelStyle}>{label}</Text>
             <TextInput
+                underlineColorAndroid='transparent'
                 keyboardType={keyboardType || 'default'}
                 maxLength={maxLength}
                 secureTextEntry={secureTextEntry}
