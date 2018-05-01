@@ -6,7 +6,7 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.mapRef = null;
-        this.state = { focusUser: props.zoomUser };
+        this.state = { focusUser: props.zoomUser, isMapReady: false };
     }
 
     componentDidMount() {
@@ -19,7 +19,7 @@ export default class Map extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         const { lat, lng } = nextProps;
-        if (lat !== this.props.lat || lng !== this.props.lng) {
+        if ((lat !== this.props.lat || lng !== this.props.lng) && this.state.isMapReady) {
             this.fitToCoordinates(lat, lng);
         }
     }
@@ -52,6 +52,7 @@ export default class Map extends React.Component {
                 onLayout={() => {
                     const { lat, lng } = this.props;
                     this.fitToCoordinates(lat, lng);
+                    this.setState({ isMapReady: true });
                 }}
                 followsUserLocation={this.state.focusUser}
                 showsUserLocation
@@ -60,7 +61,7 @@ export default class Map extends React.Component {
                     this.mapRef = ref;
                 }}
             >
-                {children}
+                {this.state.isMapReady && children}
             </MapView>
         );
     }
